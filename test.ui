@@ -45,8 +45,8 @@
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>100</y>
+     <x>320</x>
+     <y>160</y>
      <width>291</width>
      <height>211</height>
     </rect>
@@ -60,29 +60,29 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>10</y>
-      <width>241</width>
-      <height>181</height>
+      <width>263</width>
+      <height>124</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>test</string>
+        <string>connect and create a database</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QLineEdit" name="create_name"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="create_button">
        <property name="text">
-        <string>PushButton</string>
+        <string>create</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QTextEdit" name="textEdit"/>
      </item>
     </layout>
    </widget>
