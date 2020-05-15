@@ -1,5 +1,5 @@
 import pyodbc
-conn = pyodbc.connect('DRIVER={SQL Server Native Client 10.0};SERVER=localhost;DATABASE = Book_reader_db_liuyouzhe;UID=sa;PWD=Lyz158297')
+conn = pyodbc.connect('DRIVER={SQL Server Native Client 10.0};SERVER=localhost;DATABASE = Book_reader_db_liuyouzhe;InitialCatalog=dbo;UID=sa;PWD=***')
 
 cur = conn.cursor()
 if not cur:
