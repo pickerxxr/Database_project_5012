@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+    <file>icons/players.png</file>
+    <file>icons/teams.png</file>
+    <file>icons/games.png</file>
+    <file>icons/load.png</file>
+    <file>icons/compare.png</file>
+    <file>icons/heat.png</file>
+    </qresource>
+</RCC>
