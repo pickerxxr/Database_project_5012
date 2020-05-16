@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
+    <width>1112</width>
     <height>789</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>275</y>
+     <y>299</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -45,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>596</y>
+     <y>614</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -73,7 +73,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>516</y>
+     <y>537</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -97,11 +97,11 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="plays_button">
+  <widget class="QPushButton" name="games_button">
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>435</y>
+     <y>457</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -129,7 +129,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>355</y>
+     <y>378</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -157,7 +157,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>196</y>
+     <y>229</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -181,7 +181,7 @@
     </size>
    </property>
   </widget>
-  <widget class="QTabWidget" name="tabWidge_allfunc">
+  <widget class="QTabWidget" name="tabWidget_allfunc">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -191,7 +191,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>5</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -2268,6 +2268,80 @@
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>球员得分变化图</string>
+    </attribute>
+    <widget class="QLineEdit" name="line_player_id_input">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>50</y>
+       <width>113</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="line_season_input">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>50</y>
+       <width>113</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QGraphicsView" name="line_graphicsView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>791</width>
+       <height>501</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="line_player_id_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>50</y>
+       <width>81</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>球员ID：</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="line_season_label">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>50</y>
+       <width>81</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>赛季：</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="line_playername_textBrowseroutput">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>130</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QLabel" name="copyright_label">
    <property name="geometry">
@@ -2287,6 +2361,84 @@
    </property>
    <property name="text">
     <string>Proudly by 35-5012, SDS, Fudan</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>20</y>
+     <width>231</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="user">
+      <property name="text">
+       <string>User:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="password">
+      <property name="text">
+       <string>Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="user_input"/>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="password_input"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="connect_button">
+   <property name="geometry">
+    <rect>
+     <x>61</x>
+     <y>105</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Ubuntu Monospaced</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>connect</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="line_button">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>680</y>
+     <width>161</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft JhengHei UI</family>
+    </font>
+   </property>
+   <property name="text">
+    <string> 球员得分曲线</string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/line.png</normaloff>:/icons/line.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
    </property>
   </widget>
  </widget>
