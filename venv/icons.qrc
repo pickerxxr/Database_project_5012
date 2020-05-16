@@ -6,5 +6,6 @@
     <file>icons/load.png</file>
     <file>icons/compare.png</file>
     <file>icons/heat.png</file>
+        <file>icons/line.png</file>
     </qresource>
 </RCC>
