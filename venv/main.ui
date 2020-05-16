@@ -191,7 +191,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -207,7 +207,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="player_new_player_tab">
       <attribute name="title">
@@ -653,9 +653,9 @@
       <widget class="QPushButton" name="pushButton">
        <property name="geometry">
         <rect>
-         <x>240</x>
-         <y>20</y>
-         <width>251</width>
+         <x>0</x>
+         <y>10</y>
+         <width>181</width>
          <height>34</height>
         </rect>
        </property>
@@ -737,6 +737,45 @@
          <string>生涯助攻</string>
         </property>
        </column>
+      </widget>
+      <widget class="QPushButton" name="player_order_by_reb_button">
+       <property name="geometry">
+        <rect>
+         <x>363</x>
+         <y>10</y>
+         <width>141</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>按照篮板排序</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="player_order_by_score_button">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>10</y>
+         <width>131</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>按照得分排序</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="player_order_by_ass_button">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>10</y>
+         <width>141</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>按照助攻排序</string>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="player_delete_player_tab">
@@ -945,9 +984,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>220</y>
+         <y>420</y>
          <width>721</width>
-         <height>341</height>
+         <height>141</height>
         </rect>
        </property>
        <column>
@@ -1016,6 +1055,112 @@
         </property>
        </column>
       </widget>
+      <widget class="QPushButton" name="player_search_by_score_button">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>310</y>
+         <width>112</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>得分范围</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="player_search_by_age_button">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>240</y>
+         <width>112</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>年龄范围</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="player_search_age_box">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>240</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>15-20</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20-25</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>25-30</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>30-35</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>35-40</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>40-45</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="player_search_score_box">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>310</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>0-5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>5-10</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10-15</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>15-20</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20-25</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>25+</string>
+        </property>
+       </item>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -1033,7 +1178,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="team_show_all_tab">
       <attribute name="title">
@@ -1668,7 +1813,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="games_add_tab">
       <attribute name="title">
@@ -1699,6 +1844,11 @@
        <column>
         <property name="text">
          <string>ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>比赛时间</string>
         </property>
        </column>
        <column>
@@ -2270,7 +2420,7 @@
    </widget>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>球员得分变化图</string>
+     <string>球员得分曲线</string>
     </attribute>
     <widget class="QLineEdit" name="line_player_id_input">
      <property name="geometry">
