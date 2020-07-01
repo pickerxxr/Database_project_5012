@@ -194,7 +194,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -216,7 +216,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="player_new_player_tab">
       <attribute name="title">
@@ -1045,7 +1045,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="team_show_all_tab">
       <attribute name="title">
@@ -1663,6 +1663,19 @@
         <string>所在城市：</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="team_data_confirm_pushbutton">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>80</y>
+         <width>112</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -1683,7 +1696,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="games_add_tab">
       <attribute name="title">
@@ -2208,6 +2221,19 @@
       </property>
      </column>
     </widget>
+    <widget class="QPushButton" name="cmpare_confirm_pushbutton">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>80</y>
+       <width>112</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>确定</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="heatmap_tab">
     <attribute name="title">
@@ -2282,6 +2308,19 @@
       </rect>
      </property>
     </widget>
+    <widget class="QPushButton" name="heatmap_confirm_pushbutton">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>100</y>
+       <width>112</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>确定</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -2354,6 +2393,19 @@
        <width>161</width>
        <height>31</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="line_player_confirm_pushbutton">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>120</y>
+       <width>112</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>确定</string>
      </property>
     </widget>
    </widget>
