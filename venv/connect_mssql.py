@@ -3,17 +3,16 @@ import pyodbc
 
 
 # 数据库的连接
-def connect_mssql(user_id, pwd):
+def connect_mssql(user_id, user_pwd):
     try:
         conn = pyodbc.connect('DRIVER={SQL Server Native Client 10.0};'
                               'SERVER=localhost;'
                               'DATABASE = nba;'
                               'InitialCatalog=dbo;'
-                              'UID=' + user_id + ';' + 'PWD=' + pwd)
+                              'UID=' + user_id + ';' + 'PWD=' + user_pwd)
 
         cursor = conn.cursor()
-        # return cursor
-        print('连接成功')
+        return cursor
     except pyodbc.Error:
         print("数据库连接错误")
     #
@@ -36,3 +35,5 @@ def close_conn(conn, cursor):
     finally:
         cursor.close()
         conn.close()
+
+

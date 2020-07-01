@@ -7,6 +7,8 @@ import sys
 
 
 # 实现 ui和Logic的分离
+from appdirs import unicode
+
 from connect_mssql import connect_mssql, close_conn
 
 ui, _ = loadUiType('main.ui')
@@ -59,7 +61,6 @@ class MainApp(QMainWindow, ui):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn = connect_mssql(user_id, user_pwd)
-        cursor = conn.cursor
 
 
 def main():
