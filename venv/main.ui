@@ -190,8 +190,11 @@
      <height>701</height>
     </rect>
    </property>
+   <property name="tabShape">
+    <enum>QTabWidget::Triangular</enum>
+   </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -205,6 +208,12 @@
        <width>731</width>
        <height>641</height>
       </rect>
+     </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -1032,8 +1041,11 @@
        <height>671</height>
       </rect>
      </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="team_show_all_tab">
       <attribute name="title">
@@ -1666,6 +1678,9 @@
        <width>801</width>
        <height>671</height>
       </rect>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
       <number>1</number>
@@ -2388,10 +2403,14 @@
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QLineEdit" name="password_input"/>
+     <widget class="QLineEdit" name="password_input">
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
     </item>
     <item row="0" column="2">
-     <widget class="QLineEdit" name="user_input_2"/>
+     <widget class="QLineEdit" name="username_input"/>
     </item>
    </layout>
   </widget>

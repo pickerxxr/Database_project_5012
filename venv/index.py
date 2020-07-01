@@ -7,6 +7,8 @@ import sys
 
 
 # 实现 ui和Logic的分离
+from connect_mssql import connect_mssql, close_conn
+
 ui, _ = loadUiType('main.ui')
 
 
@@ -17,6 +19,7 @@ class MainApp(QMainWindow, ui):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.handle_ui_change()
+        self.handle_buttons()
 
     # UI 的变化处理
     def handle_ui_change(self):
@@ -29,7 +32,7 @@ class MainApp(QMainWindow, ui):
 
     # 处理所有button的消息和槽的通信
     def handle_buttons(self):
-        pass
+        self.connect_button.clicked.connect(self.add_data_all)
 
     # 选项卡的联动
     def open_player_tab(self):
@@ -49,6 +52,14 @@ class MainApp(QMainWindow, ui):
 
     def open_line_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(5)
+
+    # 数据库的连接处理
+    # 导入所有数据
+    def add_data_all(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn = connect_mssql(user_id, user_pwd)
+        cursor = conn.cursor
 
 
 def main():
