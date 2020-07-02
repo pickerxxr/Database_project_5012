@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1112</width>
+    <width>1081</width>
     <height>789</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>299</y>
+     <y>303</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -216,7 +216,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="player_new_player_tab">
       <attribute name="title">
@@ -683,67 +683,42 @@
        </property>
        <column>
         <property name="text">
-         <string>ID</string>
+         <string>球员ID</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>球员姓名</string>
+         <string>球员姓名(NAME)</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>队伍缩写</string>
+         <string>队伍缩写(TM)</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>年龄</string>
+         <string>平均得分(PTS)</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>选秀年</string>
+         <string>平均篮板(TRB)</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>选秀顺位</string>
+         <string>平均助攻(AST)</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>身高</string>
+         <string>平均抢断(STL)</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>体重</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>大学院校</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>国家</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>生涯得分</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>生涯篮板</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>生涯助攻</string>
+         <string>平均盖帽(BLK)</string>
         </property>
        </column>
       </widget>
@@ -2413,8 +2388,8 @@
   <widget class="QLabel" name="copyright_label">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>760</y>
+     <x>560</x>
+     <y>750</y>
      <width>301</width>
      <height>20</height>
     </rect>
@@ -2427,7 +2402,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Proudly by 35-5012, SDS, Fudan</string>
+    <string>35-5012, SDS, Fudan</string>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">

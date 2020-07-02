@@ -35,7 +35,7 @@ class MainApp(QMainWindow, ui):
     # 处理所有button的消息和槽的通信
     def handle_buttons(self):
         self.connect_button.clicked.connect(self.add_data_all)
-        self.import_button.clicked.connect(self.load_data)
+        self.load_button.clicked.connect(self.load_data)
 
     # 选项卡的联动
     def open_player_tab(self):
@@ -60,11 +60,36 @@ class MainApp(QMainWindow, ui):
     def add_data_all(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
-        conn = connect_mssql(user_id, user_pwd)
+        conn_cur = connect_mssql(user_id, user_pwd)
+        # 消息提示
+        self.statusBar().showMessage("连接成功！")
+        conn_cur.close()
+
+
 
     # 导入所有数据
     def load_data(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_import = pass
+
+        # 消息提示
+        self.statusBar().showMessage("所有数据导入成功！")
+        conn_cur.close()
+
+    def show_all_plalers(self):
         pass
+
+    def add_player_data(self):
+        pass
+
+    def delete_player_data(self):
+        pass
+
+    def find_player(self):
+        pass
+
 
 def main():
     app = QApplication([])
