@@ -194,7 +194,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -1825,99 +1825,11 @@
         <string>确认删除</string>
        </property>
       </widget>
-      <widget class="QTableWidget" name="games_delete_tableWidget">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>60</y>
-         <width>721</width>
-         <height>541</height>
-        </rect>
-       </property>
-       <column>
-        <property name="text">
-         <string>ID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>球员姓名</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>队伍缩写</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>年龄</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>选秀年</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>选秀顺位</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>身高</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>体重</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>大学院校</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>国家</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>生涯得分</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>生涯篮板</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>生涯助攻</string>
-        </property>
-       </column>
-      </widget>
-      <widget class="QPushButton" name="games_show_all_button">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>10</y>
-         <width>191</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>显示所有球员数据</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="games_delete_id_label">
        <property name="geometry">
         <rect>
          <x>250</x>
-         <y>16</y>
+         <y>18</y>
          <width>111</width>
          <height>20</height>
         </rect>
@@ -1930,11 +1842,99 @@
        <property name="geometry">
         <rect>
          <x>360</x>
-         <y>16</y>
+         <y>18</y>
          <width>131</width>
          <height>25</height>
         </rect>
        </property>
+      </widget>
+      <widget class="QPushButton" name="game_show_all_delete__button">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>10</y>
+         <width>171</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>显示所有比赛数据</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="games_elete_tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>70</y>
+         <width>791</width>
+         <height>581</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>获胜球队</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>赛季</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队得分</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队篮板</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队助攻</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队得分</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队篮板</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队助攻</string>
+        </property>
+       </column>
       </widget>
      </widget>
     </widget>
