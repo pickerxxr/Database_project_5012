@@ -212,47 +212,132 @@ class MainApp(QMainWindow, ui):
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
         sql_show_all = 'SELECT * FROM '
-        pass
-
-        # 消息提示
-        self.statusBar().showMessage("所有数据导入成功！")
         conn_cur.close()
 
     def add_player_data(self):
-        pass
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_add_player = 'SELECT * FROM '
+        # 加球员
+        conn_cur.close()
 
     def delete_player_data(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("删除数据成功！")
+        conn_cur.close()
 
     def search_player(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("搜索完成！")
+        conn_cur.close()
 
     def show_all_teams(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        conn_cur.close()
 
     def change_team_data(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("更改完成！")
+        conn_cur.close()
 
     def search_team(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("搜索完成！")
+        conn_cur.close()
 
     def show_all_game_data(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        conn_cur.close()
 
     def add_game_data(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("添加成功！")
+        conn_cur.close()
 
     def delete_game(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("删除成功！")
+        conn_cur.close()
 
     def compare_player_data(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("查询成功！")
+        conn_cur.close()
 
     def heat_map(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
 
+        # 消息提示
+        conn_cur.close()
+
     def line_graph(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+=        conn_cur.close()
 
 
 def main():
