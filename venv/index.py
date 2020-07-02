@@ -337,7 +337,7 @@ class MainApp(QMainWindow, ui):
         pass
 
         # 消息提示
-=        conn_cur.close()
+        conn_cur.close()
 
 
 def main():
