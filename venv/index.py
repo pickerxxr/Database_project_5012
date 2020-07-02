@@ -78,7 +78,7 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage("所有数据导入成功！")
         conn_cur.close()
 
-    def show_all_plalers(self):
+    def show_all_players(self):
         pass
 
     def add_player_data(self):
@@ -87,9 +87,35 @@ class MainApp(QMainWindow, ui):
     def delete_player_data(self):
         pass
 
-    def find_player(self):
+    def search_player(self):
         pass
 
+    def show_all_teams(self):
+        pass
+
+    def change_team_data(self):
+        pass
+
+    def search_team(self):
+        pass
+
+    def show_all_game_data(self):
+        pass
+
+    def add_game_data(self):
+        pass
+
+    def delete_game(self):
+        pass
+
+    def compare_player_data(self):
+        pass
+
+    def heat_map(self):
+        pass
+
+    def line_graph(self):
+        pass
 
 def main():
     app = QApplication([])
