@@ -5,7 +5,6 @@ from PyQt5.QtGui import *
 from PyQt5.uic import loadUiType
 import sys
 
-
 # 实现 ui和Logic的分离
 from appdirs import unicode
 
@@ -65,21 +64,159 @@ class MainApp(QMainWindow, ui):
         self.statusBar().showMessage("连接成功！")
         conn_cur.close()
 
-
-
     # 导入所有数据
     def load_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_import = pass
+        sql_create_table = r'''
+                        use nba_db
+                        CREATE TABLE Teams (
+                        TeamID INT NOT NULL,
+                        TeamName VARCHAR(100) NOT NULL,
+                        TeamAbbr VARCHAR(10),
+                        Location VARCHAR(100),
+                        PRIMARY KEY(TeamID));
+                        
+                        CREATE TABLE Top_Scorers (
+                        TopID INT NOT NULL,
+                        Points INT NOT NULL,
+                        Name VARCHAR(100) NOT NULL,
+                        PlayYear INT,
+                        TeamName VARCHAR(100),
+                        OppTeamName VARCHAR(100),
+                        TeamScore INT,
+                        OppTeamScore INT,
+                        PRIMARY KEY(TopID));
+                        
+                        CREATE TABLE Player_Stats (
+                        PlayerID INT NOT NULL,
+                        Player VARCHAR(100) NOT NULL,
+                        Tm VARCHAR(10) NOT NULL,
+                        Gms INT,
+                        Gstart INT,
+                        MP INT,
+                        FG INT,
+                        FGA INT,
+                        FGP FLOAT,
+                        ThreeP INT,
+                        ThreePA INT,
+                        ThreePP FLOAT,
+                        TwoP INT,
+                        TwoPA FLOAT,
+                        TwoPP FLOAT,
+                        eFGP FLOAT,
+                        FT INT,
+                        FTA FLOAT,
+                        FTP FLOAT,
+                        ORB INT,
+                        DRB INT,
+                        TRB INT,
+                        AST INT,
+                        STL INT,
+                        BLK INT,
+                        TOV INT,
+                        PF INT,
+                        PTS INT,
+                        PRIMARY KEY(PlayerID));
+                        
+                        CREATE TABLE Team_Stats (
+                        TeamID INT NOT NULL REFERENCES Teams(TeamID),
+                        G INT,
+                        MP INT,
+                        FG INT,
+                        FGA INT,
+                        FGP FLOAT,
+                        ThreeP INT,
+                        ThreePA INT,
+                        ThreePP FLOAT,
+                        TwoP INT,
+                        TwoPA INT,
+                        TwoPP FLOAT,
+                        FT INT,
+                        FTA INT,
+                        FTP FLOAT,
+                        ORB INT,
+                        DRB INT,
+                        TRB INT,
+                        AST INT,
+                        STL INT,
+                        BLK INT,
+                        TOV INT,
+                        PF INT,
+                        PTS INT,
+                        PRIMARY KEY(TeamID));
+                        
+                        
+                        CREATE TABLE Coaches (
+                        Name VARCHAR(100),
+                        TeamID INT REFERENCES Teams(TeamID),
+                        PRIMARY KEY(Name, TeamID));
 
+                        
+                        
+                          '''
+
+        sql_import = r'''
+                    use nba_db
+                    BULK INSERT Coaches
+                        FROM 'Z:\db_pj\Coaches.csv'
+                        WITH(
+                            FIRSTROW = 2,
+                            FIELDTERMINATOR = ',',
+                            ROWTERMINATOR = '\n')
+                        
+                    BULK INSERT Player_Stats
+                        FROM 'Z:\db_pj\Player_Stats.csv'
+                        WITH(
+                            FIRSTROW = 2,
+                            FIELDTERMINATOR = ',',
+                            ROWTERMINATOR = '\n'
+                        )
+                        
+                        BULK INSERT Team_Stats
+                        FROM 'Z:\db_pj\Team_Stats.csv'
+                        WITH(
+                            FIRSTROW = 2,
+                            FIELDTERMINATOR = ',',
+                            ROWTERMINATOR = '\n'
+                        )
+                        
+                        BULK INSERT Teams
+                        FROM 'Z:\db_pj\Teams.csv'
+                        WITH(
+                            FIRSTROW = 2,
+                            FIELDTERMINATOR = ',',
+                            ROWTERMINATOR = '\n'
+                        )
+                        
+                        BULK INSERT Top_Scorers
+                        FROM 'Z:\db_pj\Top_Scorers.csv'
+                        WITH(
+                            FIRSTROW = 2,
+                            FIELDTERMINATOR = ',',
+                            ROWTERMINATOR = '\n'
+                        );
+                     '''
+
+        conn_cur.execute(sql_create_table)
+        conn_cur.commit()
+        conn_cur.execute(sql_import)
+        conn_cur.commit()
         # 消息提示
         self.statusBar().showMessage("所有数据导入成功！")
         conn_cur.close()
 
     def show_all_players(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        sql_show_all = 'SELECT * FROM '
         pass
+
+        # 消息提示
+        self.statusBar().showMessage("所有数据导入成功！")
+        conn_cur.close()
 
     def add_player_data(self):
         pass
@@ -116,6 +253,7 @@ class MainApp(QMainWindow, ui):
 
     def line_graph(self):
         pass
+
 
 def main():
     app = QApplication([])
