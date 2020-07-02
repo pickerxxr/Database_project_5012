@@ -23,6 +23,20 @@ def connect_mssql(user_id, user_pwd):
     # print(row)
 
 
+def connect_directly():
+    try:
+        conn = pyodbc.connect('DRIVER={SQL Server Native Client 10.0};'
+                              'SERVER=localhost;'
+                              'DATABASE = nba;'
+                              'InitialCatalog=dbo;'
+                              'UID=sa;PWD=123456')
+
+        cursor = conn.cursor()
+        return cursor
+    except pyodbc.Error:
+        print("数据库连接错误")
+
+
 # 关闭连接
 def close_conn(conn, cursor):
     try:

@@ -4,11 +4,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.uic import loadUiType
 import sys
+import pyodbc
 
 # 实现 ui和Logic的分离
 from appdirs import unicode
 
-from connect_mssql import connect_mssql, close_conn
+from connect_mssql import connect_mssql, close_conn, connect_directly
 
 ui, _ = loadUiType('main.ui')
 
@@ -21,6 +22,7 @@ class MainApp(QMainWindow, ui):
         self.setupUi(self)
         self.handle_ui_change()
         self.handle_buttons()
+        self.show()
 
     # UI 的变化处理
     def handle_ui_change(self):
@@ -35,6 +37,8 @@ class MainApp(QMainWindow, ui):
     def handle_buttons(self):
         self.connect_button.clicked.connect(self.add_data_all)
         self.load_button.clicked.connect(self.load_data)
+        self.game_show_all_button.clicked.connect(self.show_all_game_data)
+        self.games_add_confirm_button.clicked.connect(self.add_game_data)
 
     # 选项卡的联动
     def open_player_tab(self):
@@ -147,6 +151,16 @@ class MainApp(QMainWindow, ui):
                         PTS INT,
                         PRIMARY KEY(TeamID));
                         
+                        CREATE TABLE Game_Stats(
+                        home_id INT NOT NULL REFERENCES Teams(TeamID),
+                        home_name varchar(50) NOT NULL,
+                        away_id INT NOT NULL REFERENCES Teams(TeamID),
+                        away_name varchar(50) NOT NULL,
+                        game_date date NOT NULL,
+                        winner_name VARCHAR(50) NOT NULL,
+                        home_pts INT NOT NULL,
+                        away_pts INT NOT NULL,
+                        PRIMARY KEY(home_id, away_id, game_date));
                         
                         CREATE TABLE Coaches (
                         Name VARCHAR(100),
@@ -192,6 +206,14 @@ class MainApp(QMainWindow, ui):
                         
                         BULK INSERT Top_Scorers
                         FROM 'Z:\db_pj\Top_Scorers.csv'
+                        WITH(
+                            FIRSTROW = 2,
+                            FIELDTERMINATOR = ',',
+                            ROWTERMINATOR = '\n'
+                        )
+                        
+                        BULK INSERT Game_Stats
+                        FROM 'Z:\db_pj\final.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
@@ -280,22 +302,82 @@ class MainApp(QMainWindow, ui):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
+        all_games_data = '''
+                         use nba_db
+                         select * from Game_stats;
+                         '''
+        conn_cur.execute(all_games_data)
+        while conn_cur.nextset():  # NB: This always skips the first resultset
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-        # 消息提示
+        self.games_show_all_tableWidget.setRowCount(row)
+        self.games_show_all_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.games_show_all_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
     def add_game_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
-        conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
+        conn_cur_1 = connect_mssql(user_id, user_pwd)
+        conn_cur_2 = connect_mssql(user_id, user_pwd)
+        conn_cur_3 = connect_mssql(user_id, user_pwd)
 
+        games_add_home_id_input = self.games_add_home_id_input.text()
+        games_add_away_id_input = self.games_add_away_id_input.text()
+        games_add_home_pts_input = self.games_add_home_pts_input.text()
+        games_add_away_pts_input = self.games_add_away_pts_input.text()
+        games_add_home_date_input = self.games_add_home_date_input.text()
+        win_res = 0
+        if games_add_home_pts_input > games_add_away_pts_input:
+            win_res = games_add_home_id_input
+        else:
+            win_res = games_add_away_id_input
+        games_add_home_winner_input = win_res
+        conn_cur_1.execute(
+            "Use nba_db SELECT TeamName FROM Teams WHERE TeamID = " + str(self.games_add_home_id_input.text()))
+        while conn_cur_1.nextset():  # NB: This always skips the first resultset
+            try:
+                games_add_name_home = conn_cur_1.fetchall()[0][0]
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        conn_cur_2.execute(
+            "use nba_db SELECT TeamName FROM Teams WHERE TeamID = " + str(self.games_add_away_id_input.text()))
+        while conn_cur_2.nextset():  # NB: This always skips the first resultset
+            try:
+                games_add_away_name = conn_cur_2.fetchall()[0][0]
+                break
+            except pyodbc.ProgrammingError:
+                continue
+
+        sql_add_game = '''
+                        use nba_db
+                        INSERT INTO Game_Stats (home_id, home_name,
+                        away_id, away_name
+                        ,game_date,winner_name,
+                         home_pts,away_pts) VALUES 
+                        ''' + '(' + games_add_home_id_input+',\''+ games_add_name_home + '\',' + games_add_away_id_input+',\''+games_add_away_name+'\',\''+games_add_home_date_input+'\','+games_add_home_winner_input+','+games_add_home_pts_input+','+games_add_away_pts_input + ');'
+
+        conn_cur_3.execute(sql_add_game)
+        conn_cur_3.commit()
         # 消息提示
         self.statusBar().showMessage("添加成功！")
-        conn_cur.close()
+        conn_cur_1.close()
+        conn_cur_2.close()
+        conn_cur_3.close()
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
 
     def delete_game(self):
         user_id = self.username_input.text()

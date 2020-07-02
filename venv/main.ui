@@ -216,7 +216,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="player_new_player_tab">
       <attribute name="title">
@@ -913,7 +913,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="team_show_all_tab">
       <attribute name="title">
@@ -1138,7 +1138,7 @@
       <widget class="QLabel" name="team_alter_city_label">
        <property name="geometry">
         <rect>
-         <x>90</x>
+         <x>108</x>
          <y>110</y>
          <width>41</width>
          <height>20</height>
@@ -1151,7 +1151,7 @@
       <widget class="QLineEdit" name="team_alter_city_input">
        <property name="geometry">
         <rect>
-         <x>150</x>
+         <x>168</x>
          <y>110</y>
          <width>113</width>
          <height>25</height>
@@ -1169,52 +1169,6 @@
        </property>
        <property name="text">
         <string>修改的内容：</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="team_alter_owner_input">
-       <property name="geometry">
-        <rect>
-         <x>380</x>
-         <y>110</y>
-         <width>113</width>
-         <height>25</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="team_alter_owner_label">
-       <property name="geometry">
-        <rect>
-         <x>300</x>
-         <y>110</y>
-         <width>81</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>所有者：</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="team_alter_coach_input">
-       <property name="geometry">
-        <rect>
-         <x>628</x>
-         <y>111</y>
-         <width>113</width>
-         <height>25</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="team_alter_coach_label">
-       <property name="geometry">
-        <rect>
-         <x>561</x>
-         <y>111</y>
-         <width>61</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>教练：</string>
        </property>
       </widget>
       <widget class="QTableWidget" name="team_change_tableWidget">
@@ -1252,6 +1206,32 @@
         </property>
        </column>
       </widget>
+      <widget class="QLabel" name="team_alter_city_label_3">
+       <property name="geometry">
+        <rect>
+         <x>387</x>
+         <y>113</y>
+         <width>91</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>教练:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="team_alter_abbr_input">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>110</y>
+         <width>113</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="team_search_tab">
       <attribute name="title">
@@ -1261,7 +1241,7 @@
        <property name="geometry">
         <rect>
          <x>90</x>
-         <y>30</y>
+         <y>86</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -1270,44 +1250,11 @@
         <string>队伍缩写：</string>
        </property>
       </widget>
-      <widget class="QLabel" name="player_team_abbreviation_label_6">
-       <property name="geometry">
-        <rect>
-         <x>90</x>
-         <y>90</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>建队日期：</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="team_edit_year_3">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>137</y>
-         <width>113</width>
-         <height>25</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="team_edit_year_4">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>87</y>
-         <width>113</width>
-         <height>25</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QComboBox" name="player_teamAbbreviation_box_3">
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>27</y>
+         <y>83</y>
          <width>111</width>
          <height>24</height>
         </rect>
@@ -1453,19 +1400,6 @@
         </property>
        </item>
       </widget>
-      <widget class="QLabel" name="player_team_abbreviation_label_7">
-       <property name="geometry">
-        <rect>
-         <x>90</x>
-         <y>140</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>所在城市：</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="team_data_confirm_pushbutton">
        <property name="geometry">
         <rect>
@@ -1534,7 +1468,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="games_add_tab">
       <attribute name="title">
@@ -1564,11 +1498,6 @@
        </property>
        <column>
         <property name="text">
-         <string>ID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>主队ID</string>
         </property>
        </column>
@@ -1589,12 +1518,12 @@
        </column>
        <column>
         <property name="text">
-         <string>获胜球队</string>
+         <string>比赛时间</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>赛季</string>
+         <string>获胜球队</string>
         </property>
        </column>
        <column>
@@ -1604,27 +1533,7 @@
        </column>
        <column>
         <property name="text">
-         <string>主队篮板</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>主队助攻</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>客队得分</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>客队篮板</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>客队助攻</string>
         </property>
        </column>
       </widget>
@@ -1633,34 +1542,11 @@
       <attribute name="title">
        <string>增加比赛数据</string>
       </attribute>
-      <widget class="QLabel" name="games_add_game_id_label">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>70</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>比赛ID：</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="games_add_game_id_input">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>67</y>
-         <width>201</width>
-         <height>25</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="games_add_home_id_input">
        <property name="geometry">
         <rect>
-         <x>179</x>
-         <y>140</y>
+         <x>329</x>
+         <y>67</y>
          <width>201</width>
          <height>25</height>
         </rect>
@@ -1669,8 +1555,8 @@
       <widget class="QLabel" name="games_add_home_id_label">
        <property name="geometry">
         <rect>
-         <x>99</x>
-         <y>143</y>
+         <x>249</x>
+         <y>70</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -1679,11 +1565,11 @@
         <string>主队ID：</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="games_add_away_id_label_2">
+      <widget class="QLineEdit" name="games_add_away_id_input">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>217</y>
+         <x>332</x>
+         <y>226</y>
          <width>201</width>
          <height>25</height>
         </rect>
@@ -1692,8 +1578,8 @@
       <widget class="QLabel" name="games_add_away_id_label">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>220</y>
+         <x>250</x>
+         <y>229</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -1702,34 +1588,11 @@
         <string>客队ID：</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="games_add_season_input">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>297</y>
-         <width>201</width>
-         <height>25</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="games_add_season__label">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>300</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>赛季：</string>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="games_add_home_pts_input">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>367</y>
+         <x>331</x>
+         <y>150</y>
          <width>201</width>
          <height>25</height>
         </rect>
@@ -1738,8 +1601,8 @@
       <widget class="QLabel" name="games_add_home_pts__label">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>370</y>
+         <x>250</x>
+         <y>153</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -1748,11 +1611,11 @@
         <string>主队得分</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="games_add_away_pts_id_input">
+      <widget class="QLineEdit" name="games_add_away_pts_input">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>444</y>
+         <x>334</x>
+         <y>300</y>
          <width>201</width>
          <height>25</height>
         </rect>
@@ -1761,8 +1624,8 @@
       <widget class="QLabel" name="games_add_away_pts__label">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>447</y>
+         <x>252</x>
+         <y>303</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -1771,40 +1634,40 @@
         <string>客队得分</string>
        </property>
       </widget>
-      <widget class="QLabel" name="games_add_notes_label">
-       <property name="geometry">
-        <rect>
-         <x>490</x>
-         <y>60</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>备注：</string>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_3">
-       <property name="geometry">
-        <rect>
-         <x>490</x>
-         <y>100</y>
-         <width>281</width>
-         <height>371</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="games_add_confirm_button">
        <property name="geometry">
         <rect>
-         <x>350</x>
-         <y>540</y>
+         <x>340</x>
+         <y>470</y>
          <width>112</width>
          <height>34</height>
         </rect>
        </property>
        <property name="text">
         <string>确认添加</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="games_add_home_pts__label_2">
+       <property name="geometry">
+        <rect>
+         <x>253</x>
+         <y>379</y>
+         <width>81</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>比赛日期</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="games_add_home_date_input">
+       <property name="geometry">
+        <rect>
+         <x>336</x>
+         <y>376</y>
+         <width>201</width>
+         <height>25</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -1872,11 +1735,6 @@
        </property>
        <column>
         <property name="text">
-         <string>ID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>主队ID</string>
         </property>
        </column>
@@ -1897,12 +1755,12 @@
        </column>
        <column>
         <property name="text">
-         <string>获胜球队</string>
+         <string>比赛时间</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>赛季</string>
+         <string>获胜球队</string>
         </property>
        </column>
        <column>
@@ -1912,27 +1770,7 @@
        </column>
        <column>
         <property name="text">
-         <string>主队篮板</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>主队助攻</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>客队得分</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>客队篮板</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>客队助攻</string>
         </property>
        </column>
       </widget>
