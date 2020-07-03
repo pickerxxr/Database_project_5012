@@ -51,7 +51,8 @@ class MainApp(QMainWindow, ui):
         self.player_search_ID_button.clicked.connect(self.search_player_id)
         self.player_search_name_exact_button.clicked.connect(self.search_player_name)
         self.player_search_name_fuzzy_button.clicked.connect(self.search_player_name_fuzzy)
-
+        self.team_show_all_button.clicked.connect(self.show_all_teams)
+        self.team_change_button.clicked.connect(self.change_team_data)
 
     # 选项卡的联动
     def open_player_tab(self):
@@ -446,33 +447,70 @@ class MainApp(QMainWindow, ui):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
+        all_teams_data = '''
+                                     use nba_db
+                                     SELECT * FROM Teams;
+                                     '''
 
-        # 消息提示
+        conn_cur.execute(all_teams_data)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.team_show_all_tableWidget.setRowCount(row)
+        self.team_show_all_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.team_show_all_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
     def change_team_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
 
-        # 消息提示
-        self.statusBar().showMessage("更改完成！")
+        choice = self.comboBox_team_alter.currentText()
+        id = self.team_alter_id.text()
+        content = self.team_alter_content.text()
+        if choice == "教练":
+            sql_change = r"""USE nba_db UPDATE Teams SET Teams.CoachName = """ + "'" + content + "'" + """ FROM Teams WHERE TeamID = """ + id
+        else:
+            sql_change = r"""USE nba_db UPDATE Teams SET Teams.Location = """ + "'" + content + "'" + """ FROM Teams WHERE TeamID = """ + id
+        try:
+            conn_cur.execute(sql_change)
+            self.statusBar().showMessage("修改完毕！")
+        except Exception as e:
+            self.statusBar().showMessage("错误: " + str(e))
+        conn_cur.execute('use nba_db SELECT * FROM Teams')
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.team_change_tableWidget.setRowCount(row)
+        self.team_change_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.team_change_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
-    def search_team(self):
-        user_id = self.username_input.text()
-        user_pwd = self.password_input.text()
-        conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
 
-        # 消息提示
-        self.statusBar().showMessage("搜索完成！")
-        conn_cur.close()
+
 
     def show_all_game_data(self):
         user_id = self.username_input.text()

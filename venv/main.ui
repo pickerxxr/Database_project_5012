@@ -194,7 +194,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -216,7 +216,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="player_new_player_tab">
       <attribute name="title">
@@ -985,184 +985,34 @@
       <widget class="QLabel" name="team_team_abbreviation_label">
        <property name="geometry">
         <rect>
-         <x>280</x>
-         <y>23</y>
+         <x>239</x>
+         <y>24</y>
          <width>81</width>
          <height>18</height>
         </rect>
        </property>
        <property name="text">
-        <string>队伍缩写：</string>
+        <string>队伍ID：</string>
        </property>
-      </widget>
-      <widget class="QComboBox" name="team_teamAbbreviation_box_2">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>20</y>
-         <width>111</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <item>
-        <property name="text">
-         <string>ATL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>BKN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>BOS</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CHA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CHI</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CLE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DAL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DEN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DET</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>GSW</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>HOU</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>IND</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>LAC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>LAL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MEM</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MIA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MIL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MIN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>NOP</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>NYK</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>OKC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ORL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PHI</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PHX</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>POR</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>SAC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>UTA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>WAS</string>
-        </property>
-       </item>
       </widget>
       <widget class="QLabel" name="team_alter_city_label">
        <property name="geometry">
         <rect>
-         <x>108</x>
-         <y>110</y>
-         <width>41</width>
+         <x>204</x>
+         <y>69</y>
+         <width>131</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>城市：</string>
+        <string>修改的项目：</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="team_alter_city_input">
+      <widget class="QLineEdit" name="team_alter_content">
        <property name="geometry">
         <rect>
-         <x>168</x>
-         <y>110</y>
+         <x>319</x>
+         <y>112</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -1171,9 +1021,9 @@
       <widget class="QLabel" name="team_alter_context">
        <property name="geometry">
         <rect>
-         <x>90</x>
-         <y>70</y>
-         <width>201</width>
+         <x>207</x>
+         <y>114</y>
+         <width>101</width>
          <height>18</height>
         </rect>
        </property>
@@ -1216,205 +1066,41 @@
         </property>
        </column>
       </widget>
-      <widget class="QLabel" name="team_alter_city_label_3">
+      <widget class="QLineEdit" name="team_alter_id">
        <property name="geometry">
         <rect>
-         <x>387</x>
-         <y>113</y>
-         <width>91</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>教练:</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="team_alter_abbr_input">
-       <property name="geometry">
-        <rect>
-         <x>450</x>
-         <y>110</y>
+         <x>317</x>
+         <y>20</y>
          <width>113</width>
          <height>25</height>
         </rect>
        </property>
-       <property name="text">
-        <string/>
-       </property>
       </widget>
-     </widget>
-     <widget class="QWidget" name="team_search_tab">
-      <attribute name="title">
-       <string>查找球队数据</string>
-      </attribute>
-      <widget class="QLabel" name="player_team_abbreviation_label_5">
+      <widget class="QComboBox" name="comboBox_team_alter">
        <property name="geometry">
         <rect>
-         <x>90</x>
-         <y>86</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>队伍缩写：</string>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="player_teamAbbreviation_box_3">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>83</y>
+         <x>317</x>
+         <y>69</y>
          <width>111</width>
          <height>24</height>
         </rect>
        </property>
        <item>
         <property name="text">
-         <string>ATL</string>
+         <string>城市所在地</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>BKN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>BOS</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CHA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CHI</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>CLE</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DAL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DEN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>DET</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>GSW</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>HOU</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>IND</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>LAC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>LAL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MEM</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MIA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MIL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>MIN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>NOP</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>NYK</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>OKC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ORL</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PHI</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PHX</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>POR</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>SAC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>UTA</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>WAS</string>
+         <string>教练</string>
         </property>
        </item>
       </widget>
-      <widget class="QPushButton" name="team_data_confirm_pushbutton">
+      <widget class="QPushButton" name="team_change_button">
        <property name="geometry">
         <rect>
-         <x>480</x>
-         <y>80</y>
+         <x>490</x>
+         <y>60</y>
          <width>112</width>
          <height>34</height>
         </rect>
@@ -1422,41 +1108,6 @@
        <property name="text">
         <string>确定</string>
        </property>
-      </widget>
-      <widget class="QTableWidget" name="team_search_tableWidget">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>190</y>
-         <width>751</width>
-         <height>451</height>
-        </rect>
-       </property>
-       <column>
-        <property name="text">
-         <string>球队编号</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>球队名称</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>缩写</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>城市</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>教练</string>
-        </property>
-       </column>
       </widget>
      </widget>
     </widget>
@@ -1478,7 +1129,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="games_add_tab">
       <attribute name="title">
