@@ -194,7 +194,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -225,8 +225,8 @@
       <widget class="QLabel" name="player_id_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>27</y>
+         <x>150</x>
+         <y>43</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -238,8 +238,8 @@
       <widget class="QLineEdit" name="player_id_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>23</y>
+         <x>240</x>
+         <y>39</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -248,8 +248,8 @@
       <widget class="QLabel" name="player_team_abbreviation_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>150</y>
+         <x>150</x>
+         <y>166</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -261,8 +261,8 @@
       <widget class="QLabel" name="player_name_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>82</y>
+         <x>150</x>
+         <y>102</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -274,8 +274,8 @@
       <widget class="QLineEdit" name="player_name_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>78</y>
+         <x>240</x>
+         <y>98</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -284,8 +284,8 @@
       <widget class="QComboBox" name="player_teamAbbreviation_box">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>147</y>
+         <x>240</x>
+         <y>163</y>
          <width>111</width>
          <height>24</height>
         </rect>
@@ -431,34 +431,11 @@
         </property>
        </item>
       </widget>
-      <widget class="QTextEdit" name="textEdit">
-       <property name="geometry">
-        <rect>
-         <x>300</x>
-         <y>60</y>
-         <width>281</width>
-         <height>431</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label">
-       <property name="geometry">
-        <rect>
-         <x>300</x>
-         <y>20</y>
-         <width>81</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>备注:</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="player_save_button">
        <property name="geometry">
         <rect>
-         <x>600</x>
-         <y>280</y>
+         <x>470</x>
+         <y>270</y>
          <width>112</width>
          <height>34</height>
         </rect>
@@ -470,8 +447,8 @@
       <widget class="QLineEdit" name="player_pts_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>214</y>
+         <x>240</x>
+         <y>230</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -483,8 +460,8 @@
       <widget class="QLabel" name="player_name_label_2">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>218</y>
+         <x>150</x>
+         <y>234</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -496,8 +473,8 @@
       <widget class="QLineEdit" name="player_rbd_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>287</y>
+         <x>240</x>
+         <y>303</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -509,8 +486,8 @@
       <widget class="QLabel" name="player_rbd_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>291</y>
+         <x>150</x>
+         <y>307</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -522,8 +499,8 @@
       <widget class="QLabel" name="player_ast_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>361</y>
+         <x>150</x>
+         <y>377</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -535,8 +512,8 @@
       <widget class="QLineEdit" name="player_ast_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>357</y>
+         <x>240</x>
+         <y>373</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -548,8 +525,8 @@
       <widget class="QLabel" name="player_rbd_label_2">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>430</y>
+         <x>150</x>
+         <y>446</y>
          <width>81</width>
          <height>18</height>
         </rect>
@@ -561,8 +538,8 @@
       <widget class="QLineEdit" name="player_stl_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>425</y>
+         <x>240</x>
+         <y>441</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -574,8 +551,8 @@
       <widget class="QLabel" name="player_rbd_label_3">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>499</y>
+         <x>150</x>
+         <y>512</y>
          <width>81</width>
          <height>20</height>
         </rect>
@@ -584,11 +561,11 @@
         <string>平均封盖:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="player_name_input_2">
+      <widget class="QLineEdit" name="player_blk_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>497</y>
+         <x>240</x>
+         <y>510</y>
          <width>113</width>
          <height>25</height>
         </rect>
@@ -602,12 +579,12 @@
       <attribute name="title">
        <string>查看所有球员</string>
       </attribute>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="show_all_pushButton">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>10</x>
          <y>20</y>
-         <width>251</width>
+         <width>161</width>
          <height>34</height>
         </rect>
        </property>
@@ -615,7 +592,7 @@
         <string>显示所有球员数据</string>
        </property>
       </widget>
-      <widget class="QTableWidget" name="tableWidget_2">
+      <widget class="QTableWidget" name="player_tableWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -664,6 +641,39 @@
          <string>平均盖帽(BLK)</string>
         </property>
        </column>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>-3</y>
+         <width>485</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="score_order_button">
+          <property name="text">
+           <string>按照得分排序</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="trb_order_button">
+          <property name="text">
+           <string>按照篮板排序</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ast_order_button">
+          <property name="text">
+           <string>按照助攻排序</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
      <widget class="QWidget" name="player_delete_player_tab">

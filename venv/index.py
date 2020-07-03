@@ -41,7 +41,11 @@ class MainApp(QMainWindow, ui):
         self.games_add_confirm_button.clicked.connect(self.add_game_data)
         self.games_delete_confirm_button.clicked.connect(self.delete_game)
         self.game_show_all_delete_button.clicked.connect(self.after_delete_show_all)
-
+        self.show_all_pushButton.clicked.connect(self.show_all_players)
+        self.score_order_button.clicked.connect(self.pts_order)
+        self.trb_order_button.clicked.connect(self.trb_order)
+        self.ast_order_button.clicked.connect(self.ast_order)
+        self.player_save_button.clicked.connect(self.add_player_data)
     # 选项卡的联动
     def open_player_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(0)
@@ -77,11 +81,12 @@ class MainApp(QMainWindow, ui):
         conn_cur = connect_mssql(user_id, user_pwd)
         sql_create_table = r'''
                         use nba_db
-                        CREATE TABLE Teams (
+                        CREATE TABLE Teams(
                         TeamID INT NOT NULL,
                         TeamName VARCHAR(100) NOT NULL,
                         TeamAbbr VARCHAR(10),
                         Location VARCHAR(100),
+                        CoachName VARCHAR(100),
                         PRIMARY KEY(TeamID));
                         
                         CREATE TABLE Top_Scorers (
@@ -101,8 +106,8 @@ class MainApp(QMainWindow, ui):
                         Tm VARCHAR(10) NOT NULL,
                         Gms INT,
                         Gstart INT,
-                        MP INT,
-                        FG INT,
+                        MP FLOAT,
+                        FG FLOAT,
                         FGA INT,
                         FGP FLOAT,
                         ThreeP INT,
@@ -115,15 +120,15 @@ class MainApp(QMainWindow, ui):
                         FT INT,
                         FTA FLOAT,
                         FTP FLOAT,
-                        ORB INT,
-                        DRB INT,
-                        TRB INT,
-                        AST INT,
-                        STL INT,
-                        BLK INT,
-                        TOV INT,
-                        PF INT,
-                        PTS INT,
+                        ORB FLOAT,
+                        DRB FLOAT,
+                        TRB FLOAT,
+                        AST FLOAT,
+                        STL FLOAT,
+                        BLK FLOAT,
+                        TOV FLOAT,
+                        PF FLOAT,
+                        PTS FLOAT,
                         PRIMARY KEY(PlayerID));
                         
                         CREATE TABLE Team_Stats (
@@ -165,23 +170,10 @@ class MainApp(QMainWindow, ui):
                         away_pts INT NOT NULL,
                         PRIMARY KEY(game_id));
                         
-                        CREATE TABLE Coaches (
-                        Name VARCHAR(100),
-                        TeamID INT REFERENCES Teams(TeamID),
-                        PRIMARY KEY(Name, TeamID));
-
-                        
-                        
                           '''
         data_folder_dir = self.dir_input.text()
         sql_import = '''
                     use nba_db
-                    BULK INSERT Coaches
-                        FROM ''' + '\'' + data_folder_dir+r'''\Coaches.csv'
-                        WITH(
-                            FIRSTROW = 2,
-                            FIELDTERMINATOR = ',',
-                            ROWTERMINATOR = '\n')
                         
                     BULK INSERT Player_Stats
                         FROM ''' + '\'' + data_folder_dir+r'''\Player_Stats.csv'
@@ -232,21 +224,63 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage("所有数据导入成功！")
             conn_cur.close()
         except Exception as e:
-            self.statusBar().showMessage("出现异常：",e)
+            self.statusBar().showMessage("出现异常：", e)
 
     def show_all_players(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
+        all_players_data = '''
+                             use nba_db
+                             SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats;
+                             '''
+
+        conn_cur.execute(all_players_data)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.player_tableWidget.setRowCount(row)
+        self.player_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.player_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
     def add_player_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_add_player = 'SELECT * FROM '
+
+        player_id = self.player_id_input.text()
+        player = self.player_name_input.text()
+        tm = self.player_teamAbbreviation_box.currentText()
+        pts = self.player_pts_input.text()
+        trb = self.player_rbd_input.text()
+        ast = self.player_ast_input.text()
+        stl = self.player_stl_input.text()
+        blk = self.player_blk_input.text()
+
+
+        sql_add_player = ''' USE nba_db
+                            INSERT INTO Player_Stats(PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK) 
+                            VALUES''' + '(' + player_id + ',\'' + player + '\',\'' + tm + '\',' + pts + ',' + trb + ',' + ast + ',' + stl + ',' + blk + ');'
         # 加球员
+        try:
+            conn_cur.execute(sql_add_player)
+            conn_cur.commit()
+            self.statusBar().showMessage("添加成功！")
+        except Exception as e:
+            self.statusBar().showMessage("添加失败" + str(e))
+
         conn_cur.close()
 
     def delete_player_data(self):
@@ -416,7 +450,11 @@ class MainApp(QMainWindow, ui):
                                  use nba_db
                                  select * from Game_stats;
                                  '''
-        conn_cur.execute(all_games_data)
+        try:
+            conn_cur.execute(all_games_data)
+        except Exception as e:
+            self.statusBar().showMessage("失败！" + e)
+
         while conn_cur.nextset():  # NB: This always skips the first result set
             try:
                 results = conn_cur.fetchall()
@@ -434,6 +472,93 @@ class MainApp(QMainWindow, ui):
                 temp_data = results[i][j]  # 临时记录，不能直接插入表格
                 data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                 self.games_elete_tableWidget.setItem(i, j, data)
+        conn_cur.close()
+
+    def pts_order(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        all_players_data = '''
+                                     use nba_db
+                                     SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats ORDER BY PTS DESC;
+                                     '''
+
+        conn_cur.execute(all_players_data)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.player_tableWidget.setRowCount(row)
+        self.player_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.player_tableWidget.setItem(i, j, data)
+        conn_cur.close()
+
+    def trb_order(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        all_players_data = '''
+                                     use nba_db
+                                     SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats ORDER BY TRB DESC;
+                                     '''
+
+        conn_cur.execute(all_players_data)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.player_tableWidget.setRowCount(row)
+        self.player_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.player_tableWidget.setItem(i, j, data)
+        conn_cur.close()
+
+    def ast_order(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        all_players_data = '''
+                         use nba_db
+                         SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats ORDER BY AST DESC;
+                         '''
+
+        conn_cur.execute(all_players_data)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.player_tableWidget.setRowCount(row)
+        self.player_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.player_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
     def compare_player_data(self):

@@ -1,31 +1,31 @@
-TeamID,TeamName,TeamAbbr,Location
-1,Golden State Warriors,GSW,Oakland/California
-2,Houston Rockets,HOU,Houston/Texas
-3,New Orleans Pelicans,NOP,New Orleans/Louisiana
-4,Toronto Raptors,TOR,Toronto/Ontario
-5,Cleveland Cavaliers,CLE,Cleveland/Ohio
-6,Denver Nuggets,DEN,Denver/Colorado
-7,Philadelphia 76ers,PHI,Philadelphia/Pennsylvania
-8,Minnesota Timberwolves,MIN,Minneapolis/Minnesota
-9,Los Angeles Clippers,LAC,Los Angeles/California
-10,Charlotte Hornets,CHO,Charlotte/North Carolina
-11,Los Angeles Lakers,LAL,Los Angeles/California
-12,Oklahoma City Thunder,OKC,Oklahoma City/Oklahoma
-13,Washington Wizards,WAS,Washington DC
-14,Brooklyn Nets,BRK,Brooklyn/New York
-15,Milwaukee Bucks,MIL,Milwaukee/Wisconsin
-16,Portland Trail Blazers,POR,Portland / Oregon
-17,Indiana Pacers,IND,Indianapolis/Indiana
-18,New York Knicks,NYK,New York/New York
-19,Utah Jazz,UTA,Salt Lake City/Utah
-20,Boston Celtics,BOS,Boston/Massachusetts
-21,Phoenix Suns,PHO,Phoenix/Arizona
-22,Detroit Pistons,DET,Detroit/Michigan
-23,Miami Heat,MIA,Miami/Florida
-24,Orlando Magic,ORL,Orlando/Florida
-25,Atlanta Hawks,ATL,Atlanta/Georgia
-26,Chicago Bulls,CHI,Chicago/Illinois
-27,San Antonio Spurs,SAS,San Antonio/Texas
-28,Dallas Mavericks,DAL,Dallas/Texas
-29,Memphis Grizzlies,MEM,Memphis/Tennesee
-30,Sacramento Kings,SAC,Sacramento/California
+﻿TeamID,TeamName,TeamAbbr,Location,Coach
+1,Golden State Warriors,GSW,Oakland/California,Steve Kerr
+2,Houston Rockets,HOU,Houston/Texas,Mike D'Antoni
+3,New Orleans Pelicans,NOP,New Orleans/Louisiana,Alvin Gentry
+4,Toronto Raptors,TOR,Toronto/Ontario,Dwane Casey
+5,Cleveland Cavaliers,CLE,Cleveland/Ohio,Tyronn Lue
+6,Denver Nuggets,DEN,Denver/Colorado,Mike Malone
+7,Philadelphia 76ers,PHI,Philadelphia/Pennsylvania,Brett Brown
+8,Minnesota Timberwolves,MIN,Minneapolis/Minnesota,Tom Thibodeau
+9,Los Angeles Clippers,LAC,Los Angeles/California,Doc Rivers
+10,Charlotte Hornets,CHO,Charlotte/North Carolina,Steve Clifford
+11,Los Angeles Lakers,LAL,Los Angeles/California,Luke Walton
+12,Oklahoma City Thunder,OKC,Oklahoma City/Oklahoma,Billy Donovan
+13,Washington Wizards,WAS,Washington DC,Scott Brooks
+14,Brooklyn Nets,BRK,Brooklyn/New York,Kenny Atkinson
+15,Milwaukee Bucks,MIL,Milwaukee/Wisconsin,Jason Kidd/Joe Prunty
+16,Portland Trail Blazers,POR,Portland / Oregon,Terry Stotts
+17,Indiana Pacers,IND,Indianapolis/Indiana,Nate McMillan
+18,New York Knicks,NYK,New York/New York,Jeff Hornacek
+19,Utah Jazz,UTA,Salt Lake City/Utah,Quin Snyder
+20,Boston Celtics,BOS,Boston/Massachusetts,Brad Stevens
+21,Phoenix Suns,PHO,Phoenix/Arizona,Earl Watson/Jay Triano
+22,Detroit Pistons,DET,Detroit/Michigan,Stan Van Gundy
+23,Miami Heat,MIA,Miami/Florida,Erik Spoelstra
+24,Orlando Magic,ORL,Orlando/Florida,Frank Vogel
+25,Atlanta Hawks,ATL,Atlanta/Georgia,Mike Budenholzer
+26,Chicago Bulls,CHI,Chicago/Illinois,Fred Hoiberg
+27,San Antonio Spurs,SAS,San Antonio/Texas,Gregg Popovich
+28,Dallas Mavericks,DAL,Dallas/Texas,Rick Carlisle
+29,Memphis Grizzlies,MEM,Memphis/Tennesee,David Fizdale/J.B. Bickerstaff
+30,Sacramento Kings,SAC,Sacramento/California,Dave Joerger
