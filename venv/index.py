@@ -412,8 +412,22 @@ class MainApp(QMainWindow, ui):
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
         player_name = self.player_search_name_fuzzy_input.text()
-        sql_name_search = '''use nba_db SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats 
-        WHERE Player LIKE ''' + str("'%" + player_name + "%'")
+        sql_name_search = """DECLARE @NAME Varchar(100), @str1 Varchar(100), @str2 Varchar(100), @num Int, @n Int
+                            SELECT @NAME = '""" + player_name + """'
+                            SELECT @str1 = '%' + @NAME + '%'
+                            SELECT @str2 = ''
+                            SELECT @n = LEN(@NAME)
+                            SELECT @num = 1
+                            WHILE @num < @n
+                                BEGIN 
+                                    SET @str2 = @str2 + substring(@NAME, @num, 1)+ '% '
+                                    SET @num = @num + 1
+                                END
+                            SET @str2 = @str2 + substring(@NAME, @n, 1) + '%'
+                            USE nba_db
+                            SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE Player LIKE @str2
+                            UNION 
+                            SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE Player LIKE @str1"""
         try:
             conn_cur.execute(sql_name_search)
             # 消息提示
