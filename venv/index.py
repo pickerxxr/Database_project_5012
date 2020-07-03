@@ -46,6 +46,11 @@ class MainApp(QMainWindow, ui):
         self.trb_order_button.clicked.connect(self.trb_order)
         self.ast_order_button.clicked.connect(self.ast_order)
         self.player_save_button.clicked.connect(self.add_player_data)
+        self.player_show_all_button_2.clicked.connect(self.show_all_players_from_delete)
+        self.player_delete_confirm_pushButton.clicked.connect(self.delete_player_data)
+        self.player_search_ID_button.clicked.connect(self.search_player_id)
+        self.player_search_name_exact_button.clicked.connect(self.search_player_name)
+
     # 选项卡的联动
     def open_player_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(0)
@@ -69,11 +74,13 @@ class MainApp(QMainWindow, ui):
     def add_data_all(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
-        conn_cur = connect_mssql(user_id, user_pwd)
-        # 消息提示
-        self.statusBar().showMessage("连接成功！")
-        conn_cur.close()
-
+        try:
+            conn_cur = connect_mssql(user_id, user_pwd)
+            # 消息提示
+            self.statusBar().showMessage("连接成功！")
+            conn_cur.close()
+        except Exception as e:
+            self.statusBar().showMessage("连接错误:" + str(e))
     # 导入所有数据
     def load_data(self):
         user_id = self.username_input.text()
@@ -255,6 +262,35 @@ class MainApp(QMainWindow, ui):
                 self.player_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
+    def show_all_players_from_delete(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        all_players_data = '''
+                             use nba_db
+                             SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats;
+                             '''
+
+        conn_cur.execute(all_players_data)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.player_delete_tableWidget.setRowCount(row)
+        self.player_delete_tableWidget.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.player_delete_tableWidget.setItem(i, j, data)
+        conn_cur.close()
+
     def add_player_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -287,23 +323,82 @@ class MainApp(QMainWindow, ui):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
+        ipt_id = self.player_delete_id_input.text()
+        sql_delete = '''
+                        USE nba_db
+                        DELETE FROM Player_Stats WHERE PlayerID = ''' + str(ipt_id)+';'
+        try:
+            conn_cur.execute(sql_delete)
+            conn_cur.commit()
+            # 消息提示
+            self.statusBar().showMessage("删除数据成功！")
+            conn_cur.close()
+        except Exception as e:
+            self.statusBar().showMessage("删除失败：" + str(e))
 
-        # 消息提示
-        self.statusBar().showMessage("删除数据成功！")
-        conn_cur.close()
-
-    def search_player(self):
+    def search_player_id(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
+        player_id = self.player_search_ID_input.text()
+        sql_id_search = '''use nba_db
+                           SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE PlayerID = ''' + player_id + ';'
+        try:
+            conn_cur.execute(sql_id_search)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-        # 消息提示
-        self.statusBar().showMessage("搜索完成！")
-        conn_cur.close()
+            self.player_search_tableWidget.setRowCount(row)
+            self.player_search_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_search_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+            # 消息提示
+            self.statusBar().showMessage("搜索完成！")
+        except Exception as e:
+            self.statusBar().showMessage("搜索失败:" + str(e))
+
+    def search_player_name(self):
+        user_id = self.username_input.text()
+        user_pwd = self.password_input.text()
+        conn_cur = connect_mssql(user_id, user_pwd)
+        player_name = self.player_search_name_exact_input.text()
+        sql_name_search = 'use nba_db
+                           SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE PlayerID = \''  + player_name +'\'' + ';'
+        try:
+            conn_cur.execute(sql_name_search)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+            self.player_search_tableWidget.setRowCount(row)
+            self.player_search_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_search_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+            # 消息提示
+            self.statusBar().showMessage("搜索完成！")
+        except Exception as e:
+            self.statusBar().showMessage("搜索失败:" + str(e))
 
     def show_all_teams(self):
         user_id = self.username_input.text()
@@ -453,7 +548,7 @@ class MainApp(QMainWindow, ui):
         try:
             conn_cur.execute(all_games_data)
         except Exception as e:
-            self.statusBar().showMessage("失败！" + e)
+            self.statusBar().showMessage("失败！" + str(e))
 
         while conn_cur.nextset():  # NB: This always skips the first result set
             try:
