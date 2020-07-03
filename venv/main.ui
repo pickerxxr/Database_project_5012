@@ -157,7 +157,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>229</y>
+     <y>231</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -1468,7 +1468,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="games_add_tab">
       <attribute name="title">
@@ -2149,17 +2149,20 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="user">
-      <property name="text">
-       <string>User:</string>
-      </property>
-     </widget>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="username_input"/>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="password">
       <property name="text">
        <string>Password:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="user">
+      <property name="text">
+       <string>User:</string>
       </property>
      </widget>
     </item>
@@ -2169,9 +2172,6 @@
        <enum>QLineEdit::Password</enum>
       </property>
      </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLineEdit" name="username_input"/>
     </item>
    </layout>
   </widget>
@@ -2219,6 +2219,29 @@
      <width>30</width>
      <height>30</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="dir_input">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>190</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>67</x>
+     <y>166</y>
+     <width>141</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>数据文件夹地址</string>
    </property>
   </widget>
  </widget>

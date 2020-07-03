@@ -173,18 +173,18 @@ class MainApp(QMainWindow, ui):
                         
                         
                           '''
-
-        sql_import = r'''
+        data_folder_dir = self.dir_input.text()
+        sql_import = '''
                     use nba_db
                     BULK INSERT Coaches
-                        FROM 'Z:\db_pj\Coaches.csv'
+                        FROM ''' + '\'' + data_folder_dir+r'''\Coaches.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
                             ROWTERMINATOR = '\n')
                         
                     BULK INSERT Player_Stats
-                        FROM 'Z:\db_pj\Player_Stats.csv'
+                        FROM ''' + '\'' + data_folder_dir+r'''\Player_Stats.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
@@ -192,7 +192,7 @@ class MainApp(QMainWindow, ui):
                         )
                         
                         BULK INSERT Team_Stats
-                        FROM 'Z:\db_pj\Team_Stats.csv'
+                        FROM ''' + '\'' + data_folder_dir+r'''\Team_Stats.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
@@ -200,7 +200,7 @@ class MainApp(QMainWindow, ui):
                         )
                         
                         BULK INSERT Teams
-                        FROM 'Z:\db_pj\Teams.csv'
+                        FROM ''' + '\'' + data_folder_dir+r'''\Teams.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
@@ -208,7 +208,7 @@ class MainApp(QMainWindow, ui):
                         )
                         
                         BULK INSERT Top_Scorers
-                        FROM 'Z:\db_pj\Top_Scorers.csv'
+                        FROM ''' + '\'' + data_folder_dir+r'''\Top_Scorers.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
@@ -216,7 +216,7 @@ class MainApp(QMainWindow, ui):
                         )
                         
                         BULK INSERT Game_Stats
-                        FROM 'Z:\db_pj\final.csv'
+                        FROM ''' + '\'' + data_folder_dir+r'''\final.csv'
                         WITH(
                             FIRSTROW = 2,
                             FIELDTERMINATOR = ',',
@@ -435,7 +435,6 @@ class MainApp(QMainWindow, ui):
                 data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                 self.games_elete_tableWidget.setItem(i, j, data)
         conn_cur.close()
-
 
     def compare_player_data(self):
         user_id = self.username_input.text()
