@@ -383,24 +383,27 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage("搜索完成！")
         except Exception as e:
             self.statusBar().showMessage("搜索失败:" + str(e))
+        try:
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-        while conn_cur.nextset():  # NB: This always skips the first result set
-            try:
-                results = conn_cur.fetchall()
-                break
-            except pyodbc.ProgrammingError:
-                continue
-        row = len(results)  # 取得记录个数，用于设置表格的行数
-        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+            self.player_search_tableWidget.setRowCount(row)
+            self.player_search_tableWidget.setColumnCount(vol)
 
-        self.player_search_tableWidget.setRowCount(row)
-        self.player_search_tableWidget.setColumnCount(vol)
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_search_tableWidget.setItem(i, j, data)
+        except Exception as e:
+            self.statusBar().showMessage("出现错误: 数据不存在")
 
-        for i in range(row):
-            for j in range(vol):
-                temp_data = results[i][j]  # 临时记录，不能直接插入表格
-                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
-                self.player_search_tableWidget.setItem(i, j, data)
         conn_cur.close()
 
     def search_player_name_fuzzy(self):
@@ -408,8 +411,8 @@ class MainApp(QMainWindow, ui):
         user_pwd = self.password_input.text()
         conn_cur = connect_mssql(user_id, user_pwd)
         player_name = self.player_search_name_fuzzy_input.text()
-        sql_name_search = "use nba_db SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE " \
-                          "Player LIKE '" + "%" + str(player_name) + "%" + "';"
+        sql_name_search = '''use nba_db SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats 
+        WHERE Player LIKE ''' + str("'%" + player_name + "%'")
         try:
             conn_cur.execute(sql_name_search)
             # 消息提示
@@ -417,23 +420,26 @@ class MainApp(QMainWindow, ui):
         except Exception as e:
             self.statusBar().showMessage("搜索失败:" + str(e))
 
-        while conn_cur.nextset():  # NB: This always skips the first result set
-            try:
-                results = conn_cur.fetchall()
-                break
-            except pyodbc.ProgrammingError:
-                continue
-        row = len(results)  # 取得记录个数，用于设置表格的行数
-        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+        try:
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-        self.player_search_tableWidget.setRowCount(row)
-        self.player_search_tableWidget.setColumnCount(vol)
+            self.player_search_tableWidget.setRowCount(row)
+            self.player_search_tableWidget.setColumnCount(vol)
 
-        for i in range(row):
-            for j in range(vol):
-                temp_data = results[i][j]  # 临时记录，不能直接插入表格
-                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
-                self.player_search_tableWidget.setItem(i, j, data)
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_search_tableWidget.setItem(i, j, data)
+        except Exception as e:
+            self.statusBar().showMessage("出现错误: 数据不存在")
         conn_cur.close()
 
     def show_all_teams(self):
