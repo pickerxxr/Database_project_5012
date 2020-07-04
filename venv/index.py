@@ -1,4 +1,11 @@
-# PyQt5 NBAs数据管理系统 开发
+# encoding: utf-8
+# Author    : Alan Liu<pickerxxr@gmail.com >
+# Datetime  : ${DATE} ${TIME}
+# User      : ${USER}
+# Product   : ${PRODUCT_NAME}
+# Project   : ${PROJECT_NAME}
+# File      : ${NAME}.py
+# explain   : PyQt5 NBA数据管理系统 开发
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
