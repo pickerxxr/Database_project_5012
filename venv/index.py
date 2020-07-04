@@ -225,16 +225,16 @@ class MainApp(QMainWindow, ui):
                             ROWTERMINATOR = '\n'
                         );
                      '''
+        conn_cur.execute(sql_create_table)
+        conn_cur.commit()
         try:
-            conn_cur.execute(sql_create_table)
-            conn_cur.commit()
             conn_cur.execute(sql_import)
             conn_cur.commit()
             # 消息提示
             self.statusBar().showMessage("所有数据导入成功！")
             conn_cur.close()
         except Exception as e:
-            self.statusBar().showMessage("出现异常：", e)
+            self.statusBar().showMessage("出现异常："+ str(e))
 
     def show_all_players(self):
         user_id = self.username_input.text()
@@ -244,26 +244,28 @@ class MainApp(QMainWindow, ui):
                              use nba_db
                              SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats;
                              '''
+        try:
+            conn_cur.execute(all_players_data)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-        conn_cur.execute(all_players_data)
-        while conn_cur.nextset():  # NB: This always skips the first result set
-            try:
-                results = conn_cur.fetchall()
-                break
-            except pyodbc.ProgrammingError:
-                continue
-        row = len(results)  # 取得记录个数，用于设置表格的行数
-        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+            self.player_tableWidget.setRowCount(row)
+            self.player_tableWidget.setColumnCount(vol)
 
-        self.player_tableWidget.setRowCount(row)
-        self.player_tableWidget.setColumnCount(vol)
-
-        for i in range(row):
-            for j in range(vol):
-                temp_data = results[i][j]  # 临时记录，不能直接插入表格
-                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
-                self.player_tableWidget.setItem(i, j, data)
-        conn_cur.close()
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+        except Exception as e:
+            self.statusBar().showMessage("错误: " + str(e))
 
     def show_all_players_from_delete(self):
         user_id = self.username_input.text()
@@ -273,26 +275,28 @@ class MainApp(QMainWindow, ui):
                              use nba_db
                              SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats;
                              '''
+        try:
+            conn_cur.execute(all_players_data)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-        conn_cur.execute(all_players_data)
-        while conn_cur.nextset():  # NB: This always skips the first result set
-            try:
-                results = conn_cur.fetchall()
-                break
-            except pyodbc.ProgrammingError:
-                continue
-        row = len(results)  # 取得记录个数，用于设置表格的行数
-        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+            self.player_delete_tableWidget.setRowCount(row)
+            self.player_delete_tableWidget.setColumnCount(vol)
 
-        self.player_delete_tableWidget.setRowCount(row)
-        self.player_delete_tableWidget.setColumnCount(vol)
-
-        for i in range(row):
-            for j in range(vol):
-                temp_data = results[i][j]  # 临时记录，不能直接插入表格
-                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
-                self.player_delete_tableWidget.setItem(i, j, data)
-        conn_cur.close()
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_delete_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+        except Exception as e:
+            self.statusBar().showMessage("错误：" + str(e))
 
     def add_player_data(self):
         user_id = self.username_input.text()
