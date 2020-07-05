@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1102</width>
+    <height>724</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTabWidget" name="tabWidget_allfunc">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>20</y>
+     <width>791</width>
+     <height>701</height>
+    </rect>
+   </property>
+   <property name="tabShape">
+    <enum>QTabWidget::Triangular</enum>
+   </property>
+   <property name="currentIndex">
+    <number>3</number>
+   </property>
+   <widget class="QWidget" name="player_tab">
+    <attribute name="title">
+     <string>球员数据</string>
+    </attribute>
+    <widget class="QTabWidget" name="player_tabWidge">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>731</width>
+       <height>641</height>
+      </rect>
+     </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="player_show_all_player_tab">
+      <attribute name="title">
+       <string>查看所有球员</string>
+      </attribute>
+      <widget class="QPushButton" name="show_all_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>161</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>显示所有球员数据</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="player_tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>60</y>
+         <width>721</width>
+         <height>541</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>球员ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>球员姓名(NAME)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>队伍缩写(TM)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均得分(PTS)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均篮板(TRB)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均助攻(AST)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均抢断(STL)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均盖帽(BLK)</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>-3</y>
+         <width>485</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="score_order_button">
+          <property name="text">
+           <string>按照得分排序</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="trb_order_button">
+          <property name="text">
+           <string>按照篮板排序</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ast_order_button">
+          <property name="text">
+           <string>按照助攻排序</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="player_search_player_tab">
+      <attribute name="title">
+       <string>查找球员数据</string>
+      </attribute>
+      <widget class="QPushButton" name="player_search_ID_button">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>18</y>
+         <width>112</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>查找ID</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="player_search_ID_input">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>20</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="player_search_name_exact_button">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>90</y>
+         <width>112</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>查找名字</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="player_search_name_exact_input">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>92</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="player_search_name_fuzzy_button">
+       <property name="geometry">
+        <rect>
+         <x>440</x>
+         <y>168</y>
+         <width>161</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>查找名字(模糊)</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="player_search_name_fuzzy_input">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>170</y>
+         <width>271</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="player_search_tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>270</y>
+         <width>721</width>
+         <height>351</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>球员ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>球员姓名(NAME)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>队伍缩写(TM)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均得分(PTS)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均篮板(TRB)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均助攻(AST)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均抢断(STL)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>平均盖帽(BLK)</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="team_tab">
+    <attribute name="title">
+     <string>球队数据</string>
+    </attribute>
+    <widget class="QTabWidget" name="team_tabWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>801</width>
+       <height>671</height>
+      </rect>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="team_show_all_tab">
+      <attribute name="title">
+       <string>显示所有球队数据</string>
+      </attribute>
+      <widget class="QPushButton" name="team_show_all_button">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>20</y>
+         <width>251</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>显示所有球队数据</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="team_show_all_tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>751</width>
+         <height>541</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>球队编号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>球队名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>缩写</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>城市</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>教练</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="games_tab">
+    <attribute name="title">
+     <string>比赛数据</string>
+    </attribute>
+    <widget class="QTabWidget" name="games_talbwidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>801</width>
+       <height>671</height>
+      </rect>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="games_add_tab">
+      <attribute name="title">
+       <string>查看所有比赛数据</string>
+      </attribute>
+      <widget class="QPushButton" name="game_show_all_button">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>20</y>
+         <width>171</width>
+         <height>34</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>显示所有比赛数据</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="games_show_all_tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>60</y>
+         <width>791</width>
+         <height>581</height>
+        </rect>
+       </property>
+       <column>
+        <property name="text">
+         <string>比赛ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队名称</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>比赛时间</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>获胜球队</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>主队得分</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>客队得分</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="compare_tab">
+    <attribute name="title">
+     <string>球员数据对比</string>
+    </attribute>
+    <widget class="QLabel" name="compare_player_1_label">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>54</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>球员1的ID：</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="compare_player_1_input">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>50</y>
+       <width>113</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="compare_player_1_tablewidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>361</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>球员姓名</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>身高</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>得分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>助攻</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>篮板</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="compare_player_2_input">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>50</y>
+       <width>113</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="compare_player_2_label">
+     <property name="geometry">
+      <rect>
+       <x>492</x>
+       <y>55</y>
+       <width>91</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>球员2的ID:</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="compare_player_2_tablewidget">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>130</y>
+       <width>351</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>球员姓名</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>身高</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>得分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>助攻</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>篮板</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="cmpare_confirm_pushbutton">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>80</y>
+       <width>112</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>确定</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="heatmap_tab">
+    <attribute name="title">
+     <string>球员投篮热图</string>
+    </attribute>
+    <widget class="QGraphicsView" name="heat_graphicsView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>791</width>
+       <height>501</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="heat_player_id_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>50</y>
+       <width>81</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>球员ID：</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="heat_player_id_input">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>50</y>
+       <width>113</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="heat_season_input">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>50</y>
+       <width>113</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="heat_season_label">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>50</y>
+       <width>81</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>赛季：</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="heat_playername_textBrowseroutput">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>130</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="heatmap_confirm_pushbutton">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>100</y>
+       <width>112</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>确定</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>130</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>连接数据库</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>40</y>
+     <width>160</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLineEdit" name="id"/>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="pwd"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>52</y>
+     <width>81</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>用户名</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>90</y>
+     <width>81</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>密码</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
