@@ -12,13 +12,70 @@ from PyQt5.QtGui import *
 from PyQt5.uic import loadUiType
 import sys
 import pyodbc
-
+import hashlib
 # 实现 ui和Logic的分离
-from appdirs import unicode
 
 from connect_mssql import connect_mssql, close_conn, connect_directly
 
 ui, _ = loadUiType('main.ui')
+login, _ = loadUiType('choose_user.ui')
+normal_ui, _ = loadUiType('normal_user.ui')
+
+class LoginApp(QWidget, login):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.setupUi(self)
+        self.init_user_button.clicked.connect(self.handel_login)
+        style = open("themes/darkorange.css", 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+        self.init_manage_button.clicked.connect(self.manage)
+        self.init_quit_button.clicked.connect(self.close)
+
+    def md5(self, arg):
+        hs = hashlib.md5(bytes("交大NB", encoding="utf-8"))
+        hs.update(bytes(arg, encoding='utf-8'))
+        return hs.hexdigest()
+
+    def handel_login(self):
+        conn_cur = connect_mssql('sa', '123456')
+        name = self.name_init.text()
+        pwd = self.pwd_init.text()
+        pwd_hs = self.md5(pwd)
+        sql = """USE nba_db
+                 SELECT * FROM users WHERE user_name = '""" + name + "' and user_pwd = '" + pwd_hs + "';"
+
+        conn_cur.execute(sql)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        if results:
+            self.main_app = normal_user()
+            self.close()
+            self.main_app.show()
+
+        else:
+            self.error_message.setText("用户名或密码错误，重新输入")
+
+
+    def manage(self):
+        self.main_app = MainApp()
+        self.close()
+        self.main_app.show()
+
+class normal_user(QMainWindow, normal_ui):
+
+    # 定义构造方法
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.setupUi(self)
+        self.handle_buttons()
+        self.show()
+    def handle_buttons(self):
+        pass
 
 class MainApp(QMainWindow, ui):
 
@@ -58,6 +115,9 @@ class MainApp(QMainWindow, ui):
         self.player_search_name_fuzzy_button.clicked.connect(self.search_player_name_fuzzy)
         self.team_show_all_button.clicked.connect(self.show_all_teams)
         self.team_change_button.clicked.connect(self.change_team_data)
+        self.theme_button.clicked.connect(self.dark_gray_theme)
+        self.add_user_button.clicked.connect(self.add_user)
+
 
     # 选项卡的联动
     def open_player_tab(self):
@@ -75,6 +135,16 @@ class MainApp(QMainWindow, ui):
     def open_add_user_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(4)
 
+    def dark_blue_theme(self):
+        style = open("themes/darkblue.css", 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def dark_gray_theme(self):
+        style = open("themes/darkgray.css", 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
     # 数据库的连接处理
     def add_data_all(self):
         user_id = self.username_input.text()
@@ -86,6 +156,7 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             self.statusBar().showMessage("连接错误:" + str(e))
+
     # 导入所有数据
     def load_data(self):
         user_id = self.username_input.text()
@@ -184,13 +255,19 @@ class MainApp(QMainWindow, ui):
                             away_pts INT NOT NULL,
                             PRIMARY KEY(game_id));
                             
+                            CREATE TABLE users(
+                            user_name VARCHAR(50) NOT NULL,
+                            user_pwd VARCHAR(MAX) NOT NULL,
+                            PRIMARY KEY(user_name));
+                            
+                            
                               '''
             data_folder_dir = self.dir_input.text()
             sql_import = '''
                         use nba_db
                             
                         BULK INSERT Player_Stats
-                            FROM ''' + '\'' + data_folder_dir+r'''\Player_Stats.csv'
+                            FROM ''' + '\'' + data_folder_dir + r'''\Player_Stats.csv'
                             WITH(
                                 FIRSTROW = 2,
                                 FIELDTERMINATOR = ',',
@@ -198,7 +275,7 @@ class MainApp(QMainWindow, ui):
                             )
                             
                             BULK INSERT Team_Stats
-                            FROM ''' + '\'' + data_folder_dir+r'''\Team_Stats.csv'
+                            FROM ''' + '\'' + data_folder_dir + r'''\Team_Stats.csv'
                             WITH(
                                 FIRSTROW = 2,
                                 FIELDTERMINATOR = ',',
@@ -206,7 +283,7 @@ class MainApp(QMainWindow, ui):
                             )
                             
                             BULK INSERT Teams
-                            FROM ''' + '\'' + data_folder_dir+r'''\Teams.csv'
+                            FROM ''' + '\'' + data_folder_dir + r'''\Teams.csv'
                             WITH(
                                 FIRSTROW = 2,
                                 FIELDTERMINATOR = ',',
@@ -214,7 +291,7 @@ class MainApp(QMainWindow, ui):
                             )
                             
                             BULK INSERT Top_Scorers
-                            FROM ''' + '\'' + data_folder_dir+r'''\Top_Scorers.csv'
+                            FROM ''' + '\'' + data_folder_dir + r'''\Top_Scorers.csv'
                             WITH(
                                 FIRSTROW = 2,
                                 FIELDTERMINATOR = ',',
@@ -222,7 +299,7 @@ class MainApp(QMainWindow, ui):
                             )
                             
                             BULK INSERT Game_Stats
-                            FROM ''' + '\'' + data_folder_dir+r'''\final.csv'
+                            FROM ''' + '\'' + data_folder_dir + r'''\final.csv'
                             WITH(
                                 FIRSTROW = 2,
                                 FIELDTERMINATOR = ',',
@@ -241,7 +318,7 @@ class MainApp(QMainWindow, ui):
                 self.statusBar().showMessage("所有数据导入成功！")
                 conn_cur.close()
             except Exception as e:
-                self.statusBar().showMessage("出现异常："+ str(e))
+                self.statusBar().showMessage("出现异常：" + str(e))
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
@@ -314,6 +391,7 @@ class MainApp(QMainWindow, ui):
                 self.statusBar().showMessage("错误：" + str(e))
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def add_player_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -329,7 +407,6 @@ class MainApp(QMainWindow, ui):
             stl = self.player_stl_input.text()
             blk = self.player_blk_input.text()
 
-
             sql_add_player = ''' USE nba_db
                                 INSERT INTO Player_Stats(PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK) 
                                 VALUES''' + '(' + player_id + ',\'' + player + '\',\'' + tm + '\',' + pts + ',' + trb + ',' + ast + ',' + stl + ',' + blk + ');'
@@ -344,6 +421,7 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def delete_player_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -353,7 +431,7 @@ class MainApp(QMainWindow, ui):
             ipt_id = self.player_delete_id_input.text()
             sql_delete = '''
                             USE nba_db
-                            DELETE FROM Player_Stats WHERE PlayerID = ''' + str(ipt_id)+';'
+                            DELETE FROM Player_Stats WHERE PlayerID = ''' + str(ipt_id) + ';'
             try:
                 conn_cur.execute(sql_delete)
                 conn_cur.commit()
@@ -364,6 +442,7 @@ class MainApp(QMainWindow, ui):
                 self.statusBar().showMessage("删除失败：" + str(e))
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def search_player_id(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -399,6 +478,7 @@ class MainApp(QMainWindow, ui):
                 self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def search_player_name(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -499,6 +579,7 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def show_all_teams(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -531,12 +612,12 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def change_team_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         try:
             conn_cur = connect_mssql(user_id, user_pwd)
-
 
             choice = self.comboBox_team_alter.currentText()
             id = self.team_alter_id.text()
@@ -572,8 +653,6 @@ class MainApp(QMainWindow, ui):
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
-
-
     def show_all_game_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -605,6 +684,7 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def add_game_data(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -661,7 +741,7 @@ class MainApp(QMainWindow, ui):
                             away_id, away_name
                             ,game_date,winner_name,
                              home_pts,away_pts) VALUES 
-                            ''' + '(' + game_id+','+games_add_home_id_input+',\''+ games_add_name_home + '\',' + games_add_away_id_input+',\''+games_add_away_name+'\',\''+games_add_home_date_input+'\',\''+games_add_home_winner_input+'\','+games_add_home_pts_input+','+games_add_away_pts_input + ');'
+                            ''' + '(' + game_id + ',' + games_add_home_id_input + ',\'' + games_add_name_home + '\',' + games_add_away_id_input + ',\'' + games_add_away_name + '\',\'' + games_add_home_date_input + '\',\'' + games_add_home_winner_input + '\',' + games_add_home_pts_input + ',' + games_add_away_pts_input + ');'
 
             try:
                 conn_cur_3.execute(sql_add_game)
@@ -688,7 +768,7 @@ class MainApp(QMainWindow, ui):
             ipt_id = self.games_delete_id_input.text()
             sql_delete = '''
                             USE nba_db
-                            DELETE FROM Game_Stats WHERE game_id = ''' + str(ipt_id)+';'
+                            DELETE FROM Game_Stats WHERE game_id = ''' + str(ipt_id) + ';'
 
             try:
                 conn_cur.execute(sql_delete)
@@ -738,6 +818,7 @@ class MainApp(QMainWindow, ui):
 
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def pts_order(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -773,6 +854,7 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
     def trb_order(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -805,7 +887,6 @@ class MainApp(QMainWindow, ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
-
 
     def ast_order(self):
         user_id = self.username_input.text()
@@ -841,40 +922,45 @@ class MainApp(QMainWindow, ui):
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
-    def compare_player_data(self):
+
+###############################################user management system##########################################
+###############################################################################################################
+    def add_user(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
         try:
             conn_cur = connect_mssql(user_id, user_pwd)
+            name = self.lineEditname.text()
+            pwd = self.lineEdit_2.text()
+            pwd_confirm = self.lineEdit_3.text()
+            if pwd ==pwd_confirm:
+                hs = hashlib.md5(bytes("交大NB", encoding='UTF-8'))
+                hs.update(bytes(pwd, encoding='UTF-8'))
+                pwd_hs = hs.hexdigest()
+                sql_add = """USE nba_db INSERT INTO users(user_name, user_pwd) VALUES (""" + "'" + str(name) + "'"+ ",'" + str(pwd_hs) + "');"
+                try:
+                    conn_cur.execute(sql_add)
+                    conn_cur.commit()
+                    conn_cur.close()
+                    self.statusBar().showMessage("用户添加成功！")
+                    self.lineEditname.setText('')
+                    self.lineEdit_2.setText('')
+                    self.lineEdit_3.setText('')
+                except Exception as e:
+                    self.statusBar().showMessage("错误: " + str(e))
+            else:
+                self.error_m.setText('两次密码不一致！请再次输入！')
+                self.lineEdit_2.setText('')
+                self.lineEdit_3.setText('')
+
+
+
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
-
-
-    def heat_map(self):
-        user_id = self.username_input.text()
-        user_pwd = self.password_input.text()
-        conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
-
-        # 消息提示
-        conn_cur.close()
-
-    def line_graph(self):
-        user_id = self.username_input.text()
-        user_pwd = self.password_input.text()
-        conn_cur = connect_mssql(user_id, user_pwd)
-        sql_show_all = 'SELECT * FROM '
-        pass
-
-        # 消息提示
-        conn_cur.close()
-
-
 def main():
     app = QApplication([])
-    window = MainApp()
+    window = LoginApp()
     window.show()
     app.exec_()
 
