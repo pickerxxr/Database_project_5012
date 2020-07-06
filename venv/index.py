@@ -49,7 +49,7 @@ class LoginApp(QWidget, login):
         return hs.hexdigest()
 
     def handle_login(self):
-        conn_cur = connect_mssql('sa', '123456')
+        conn_cur = connect_mssql('sa', 'Admin123456')
         name = self.name_init.text()
         pwd = self.pwd_init.text()
         pwd_hs = self.md5(pwd)
@@ -65,14 +65,12 @@ class LoginApp(QWidget, login):
                 continue
         if results:
             self.main_app = normal_user()
-            self.close()
             self.main_app.show()
         else:
             self.error_message.setText("用户名或密码错误，重新输入")
 
     def manage(self):
         self.main_app = MainApp()
-        self.close()
         self.main_app.show()
 
 
@@ -807,7 +805,7 @@ class MainApp(QMainWindow, ui):
             self.statusBar().showMessage("连接成功！")
 
         except Exception as e:
-            self.statusBar().showMessage("连接错误:" + str(e))
+            self.statusBar().showMessage("连接错误: 用户或密码有误")
 
     # 导入所有数据
     def load_data(self):
@@ -917,7 +915,7 @@ class MainApp(QMainWindow, ui):
                                                        
                             
                               '''
-            data_folder_dir = self.dir_input.text()
+            data_folder_dir = ".\\"
             sql_import = '''
                         use nba_db
                             
@@ -1599,16 +1597,14 @@ class MainApp(QMainWindow, ui):
                 pwd_hs = hs.hexdigest()
                 sql_add = """USE nba_db INSERT INTO users(user_name, user_pwd) VALUES (""" + "'" + str(
                     name) + "'" + ",'" + str(pwd_hs) + "');"
-                try:
-                    conn_cur.execute(sql_add)
-                    conn_cur.commit()
-                    conn_cur.close()
-                    self.statusBar().showMessage("用户添加成功！")
-                    self.lineEditname.setText('')
-                    self.lineEdit_2.setText('')
-                    self.lineEdit_3.setText('')
-                except Exception as e:
-                    self.statusBar().showMessage("错误: " + str(e))
+                conn_cur.execute(sql_add)
+                conn_cur.commit()
+                conn_cur.close()
+                self.statusBar().showMessage("用户添加成功！")
+                self.lineEditname.setText('')
+                self.lineEdit_2.setText('')
+                self.lineEdit_3.setText('')
+
             else:
                 self.error_m.setText('两次密码不一致！请再次输入！')
                 self.lineEdit_2.setText('')

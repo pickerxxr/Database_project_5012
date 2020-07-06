@@ -1599,29 +1599,6 @@
     <string>connect</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="dir_input">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>190</y>
-     <width>161</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>67</x>
-     <y>166</y>
-     <width>141</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>数据文件夹地址</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="add_login">
    <property name="geometry">
     <rect>
@@ -1636,7 +1613,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>icons/add_user.png</normaloff>icons/add_user.png</iconset>
+     <normaloff>../../../../.designer/backup/icons/add_user.png</normaloff>../../../../.designer/backup/icons/add_user.png</iconset>
    </property>
    <property name="iconSize">
     <size>

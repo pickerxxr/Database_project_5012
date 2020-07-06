@@ -5,8 +5,8 @@ import pyodbc
 def connect_mssql(user_id, user_pwd):
     try:
         conn = pyodbc.connect('DRIVER={SQL Server Native Client 10.0};'
-                              'SERVER=localhost;'
-                              'DATABASE = nba;'
+                              'SERVER=120.55.193.152;'
+                              'DATABASE = nba_db;'
                               'InitialCatalog=dbo;'
                               'UID=' + user_id + ';' + 'PWD=' + user_pwd)
 
@@ -25,10 +25,10 @@ def connect_mssql(user_id, user_pwd):
 def connect_directly():
     try:
         conn = pyodbc.connect('DRIVER={SQL Server Native Client 10.0};'
-                              'SERVER=localhost;'
-                              'DATABASE = nba;'
+                              'SERVER=120.55.193.152;'
+                              'DATABASE = nba_db;'
                               'InitialCatalog=dbo;'
-                              'UID=' + 'sa' + ';' + 'PWD=' + '123456')
+                              'UID=' + 'sa' + ';' + 'PWD=' + 'Admin123456')
 
         cursor = conn.cursor()
         return cursor
