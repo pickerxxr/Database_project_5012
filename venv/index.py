@@ -460,6 +460,7 @@ class MainApp(QMainWindow, ui):
 
 
 
+
     # 选项卡的联动
     def open_player_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(0)
@@ -485,6 +486,7 @@ class MainApp(QMainWindow, ui):
         style = open("themes/darkgray.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
+
 
     # 数据库的连接处理
     def add_data_all(self):
@@ -793,11 +795,15 @@ class MainApp(QMainWindow, ui):
                             USE nba_db
                             DELETE FROM Player_Stats WHERE PlayerID = ''' + str(ipt_id) + ';'
             try:
-                conn_cur.execute(sql_delete)
-                conn_cur.commit()
-                # 消息提示
-                self.statusBar().showMessage("删除数据成功！")
-                conn_cur.close()
+
+                ans = QMessageBox.question(self, "警告", "操作不可逆，确定继续？", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+                if ans == QMessageBox.Yes:
+
+                    conn_cur.execute(sql_delete)
+                    conn_cur.commit()
+                    # 消息提示
+                    self.statusBar().showMessage("删除数据成功！")
+                    conn_cur.close()
             except Exception as e:
                 self.statusBar().showMessage("删除失败：" + str(e))
         except Exception as e:
@@ -978,38 +984,39 @@ class MainApp(QMainWindow, ui):
         user_pwd = self.password_input.text()
         try:
             conn_cur = connect_mssql(user_id, user_pwd)
-
-            choice = self.comboBox_team_alter.currentText()
-            id = self.team_alter_id.text()
-            content = self.team_alter_content.text()
-            if choice == "教练":
-                sql_change = r"""USE nba_db UPDATE Teams SET Teams.CoachName = """ + "'" + content + "'" + """ FROM Teams WHERE TeamID = """ + id
-            else:
-                sql_change = r"""USE nba_db UPDATE Teams SET Teams.Location = """ + "'" + content + "'" + """ FROM Teams WHERE TeamID = """ + id
-            try:
-                conn_cur.execute(sql_change)
-                self.statusBar().showMessage("修改完毕！")
-            except Exception as e:
-                self.statusBar().showMessage("错误: " + str(e))
-            conn_cur.execute('use nba_db SELECT * FROM Teams')
-            while conn_cur.nextset():  # NB: This always skips the first result set
+            ans = QMessageBox.question(self, "警告", "操作不可逆，确定继续？", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if ans == QMessageBox.Yes:
+                choice = self.comboBox_team_alter.currentText()
+                id = self.team_alter_id.text()
+                content = self.team_alter_content.text()
+                if choice == "教练":
+                    sql_change = r"""USE nba_db UPDATE Teams SET Teams.CoachName = """ + "'" + content + "'" + """ FROM Teams WHERE TeamID = """ + id
+                else:
+                    sql_change = r"""USE nba_db UPDATE Teams SET Teams.Location = """ + "'" + content + "'" + """ FROM Teams WHERE TeamID = """ + id
                 try:
-                    results = conn_cur.fetchall()
-                    break
-                except pyodbc.ProgrammingError:
-                    continue
-            row = len(results)  # 取得记录个数，用于设置表格的行数
-            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+                    conn_cur.execute(sql_change)
+                    self.statusBar().showMessage("修改完毕！")
+                except Exception as e:
+                    self.statusBar().showMessage("错误: " + str(e))
+                conn_cur.execute('use nba_db SELECT * FROM Teams')
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
 
-            self.team_change_tableWidget.setRowCount(row)
-            self.team_change_tableWidget.setColumnCount(vol)
+                self.team_change_tableWidget.setRowCount(row)
+                self.team_change_tableWidget.setColumnCount(vol)
 
-            for i in range(row):
-                for j in range(vol):
-                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
-                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
-                    self.team_change_tableWidget.setItem(i, j, data)
-            conn_cur.close()
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.team_change_tableWidget.setItem(i, j, data)
+                conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
@@ -1131,11 +1138,13 @@ class MainApp(QMainWindow, ui):
                             DELETE FROM Game_Stats WHERE game_id = ''' + str(ipt_id) + ';'
 
             try:
-                conn_cur.execute(sql_delete)
-                # 消息提示
-                self.statusBar().showMessage("删除成功！")
-                conn_cur.commit()
-                conn_cur.close()
+                ans = QMessageBox.question(self, "警告", "操作不可逆，确定继续？", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+                if ans == QMessageBox.Yes:
+                    conn_cur.execute(sql_delete)
+                    # 消息提示
+                    self.statusBar().showMessage("删除成功！")
+                    conn_cur.commit()
+                    conn_cur.close()
             except Exception as e:
                 self.statusBar().showMessage("删除失败！")
 
