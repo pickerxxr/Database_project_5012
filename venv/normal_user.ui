@@ -445,6 +445,11 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>历史球员最高得分</string>
+    </attribute>
+   </widget>
    <widget class="QWidget" name="compare_tab">
     <attribute name="title">
      <string>球员数据对比</string>
