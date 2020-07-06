@@ -6,11 +6,20 @@
 # Project   : ${PROJECT_NAME}
 # File      : ${NAME}.py
 # explain   : PyQt5 NBA数据管理系统 开发
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.uic import loadUiType
 import sys
+
+from PyQt5.QtWidgets import *
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+
+matplotlib.use("Qt5Agg")
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from mplwidget import *
+from PyQt5.uic import loadUiType
+from PyQt5.uic import loadUi
+
 import pyodbc
 import hashlib
 # 实现 ui和Logic的分离
@@ -21,9 +30,11 @@ ui, _ = loadUiType('main.ui')
 login, _ = loadUiType('choose_user.ui')
 normal_ui, _ = loadUiType('normal_user.ui')
 
+
 class LoginApp(QWidget, login):
     def __init__(self):
         QWidget.__init__(self)
+        self.setWindowTitle("Login")
         self.setupUi(self)
         self.init_user_button.clicked.connect(self.handle_login)
         style = open("themes/darkorange.css", 'r')
@@ -59,11 +70,13 @@ class LoginApp(QWidget, login):
         else:
             self.error_message.setText("用户名或密码错误，重新输入")
 
-
     def manage(self):
         self.main_app = MainApp()
         self.close()
         self.main_app.show()
+
+
+
 
 class normal_user(QMainWindow, normal_ui):
 
@@ -72,8 +85,11 @@ class normal_user(QMainWindow, normal_ui):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.handle_buttons()
+        self.setWindowTitle("Normal user")
         self.show()
         self.user_name_show.setText("已连接")
+
+
 
     def md5(self, arg):
         hs = hashlib.md5(bytes("交大NB", encoding="utf-8"))
@@ -90,6 +106,285 @@ class normal_user(QMainWindow, normal_ui):
         self.player_search_name_fuzzy_button.clicked.connect(self.search_player_name_fuzzy)
         self.team_show_all_button.clicked.connect(self.show_all_teams)
         self.game_show_all_button.clicked.connect(self.show_all_game_data)
+        self.cmpare_confirm_pushbutton.clicked.connect(self.compare_players)
+
+    def compare_players(self):
+        conn_cur = connect_directly()
+        try:
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_trb_max = """SELECT MAX(DRB) FROM Player_Stats;"""
+            conn_cur.execute(sql_trb_max)
+            max_trb = conn_cur.fetchall()[0][0]
+            sql_trb = """SELECT DRB FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
+            conn_cur.execute(sql_trb)
+            trb_1 = (conn_cur.fetchall()[0][0]) / max_trb
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_pts_max = """SELECT MAX(PTS) FROM Player_Stats;"""
+            conn_cur.execute(sql_pts_max)
+            max_pts = conn_cur.fetchall()[0][0]
+            sql_pts = """SELECT PTS FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
+            conn_cur.execute(sql_pts)
+            pts_1 = (conn_cur.fetchall()[0][0]) / max_pts
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_ast_max = """SELECT MAX(AST) FROM Player_Stats;"""
+            conn_cur.execute(sql_ast_max)
+            max_ast = conn_cur.fetchall()[0][0]
+            sql_ast = """SELECT AST FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
+            conn_cur.execute(sql_ast)
+            ast_1 = (conn_cur.fetchall()[0][0]) / max_ast
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_blk_max = """SELECT MAX(BLK) FROM Player_Stats;"""
+            conn_cur.execute(sql_blk_max)
+            max_blk = conn_cur.fetchall()[0][0]
+            sql_blk = """SELECT BLK FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
+            conn_cur.execute(sql_blk)
+            blk_1 = (conn_cur.fetchall()[0][0]) / max_blk
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_stl_max = """SELECT MAX(STL) FROM Player_Stats;"""
+            conn_cur.execute(sql_stl_max)
+            max_stl = conn_cur.fetchall()[0][0]
+            sql_stl = """SELECT STL FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
+            conn_cur.execute(sql_stl)
+            stl_1 = (conn_cur.fetchall()[0][0]) / max_stl
+
+            sql_name_1 = """SELECT Player FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
+            conn_cur.execute(sql_name_1)
+            name_1 = conn_cur.fetchall()[0][0]
+
+
+            input_character = ['PTS', 'TRB', 'AST', 'BLK', 'STL']
+            input_num = [pts_1, trb_1, ast_1, blk_1, stl_1]
+            input_name = name_1
+            labels = np.array(input_character)
+            # 数据个数
+            dataLenth = len(input_num)
+            # 数据
+            data = np.array(input_num)
+            # 分割圆周长
+            angles = np.linspace(0, 2 * np.pi, dataLenth, endpoint=False)
+            # 闭合
+            data = np.concatenate((data, [data[0]]))
+            # 闭合
+            angles = np.concatenate((angles, [angles[0]]))
+            # 设置画布大小
+            fig = plt.figure(figsize=(5, 5))
+            # 这里一定要设置为极坐标格式
+            # axes = fig.add_subplot(121, polar=True)
+            loc = np.array([-0.1, 0.9])
+            # 画若干个五边形
+            floor = np.floor(loc.min())  # 大于最小值的最大整数
+            ceil = np.ceil(loc.max())  # 小于最大值的最小整数
+            for i in np.arange(floor, ceil + 2, 2):
+                self.MplWidget2_2.canvas.axes.plot(angles, [i] * (int(len(labels)) + 1), '-', lw=0.3, color='black')
+
+            self.MplWidget2_2.canvas.axes.clear()
+            # self.MplWidget2_2.canvas.axes.spines['polar'].set_visible(False)  # 不显示极坐标最外圈的圆
+            self.MplWidget2_2.canvas.axes.grid(False)  # 不显示默认的分割线
+            self.MplWidget2_2.canvas.axes.set_yticks([])  # 不显示坐标间隔
+            self.MplWidget2_2.canvas.axes.plot(angles, data, 'ro-', linewidth=2)
+            self.MplWidget2_2.canvas.axes.set_thetagrids(angles * 180/np.pi, labels)
+            self.MplWidget2_2.canvas.axes.set_title('capability radar map of ' + input_name, va='bottom', fontproperties="SimHei")
+            self.MplWidget2_2.canvas.axes.grid(True)
+            self.MplWidget2_2.canvas.axes.set_title(str(input_name))
+            self.MplWidget2_2.canvas.draw()
+
+            n = len(input_num)
+            for i in range(n - 1, -1, -1):
+                for j in range(i, n - 1):
+                    if input_num[j] < input_num[j + 1]:
+                        input_num[j], input_num[j + 1] = input_num[j + 1], input_num[j]
+                        input_character[j], input_character[j + 1] = input_character[j + 1], input_character[j]
+            s = ''
+
+            s = input_name + '的'
+            s = s + input_character[0] + '和' + input_character[1] + '比较出众。'
+            self.label_2.setText(s)
+
+            conn_cur.close()
+            #########################################player_2#############################################
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_trb_max = """SELECT MAX(DRB) FROM Player_Stats;"""
+            conn_cur.execute(sql_trb_max)
+            max_trb = conn_cur.fetchall()[0][0]
+            sql_trb = """SELECT DRB FROM Player_Stats WHERE PlayerID = """ + self.compare_player_2_input.text()
+            conn_cur.execute(sql_trb)
+            trb_2 = (conn_cur.fetchall()[0][0]) / max_trb
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_pts_max = """SELECT MAX(PTS) FROM Player_Stats;"""
+            conn_cur.execute(sql_pts_max)
+            max_pts = conn_cur.fetchall()[0][0]
+            sql_pts = """SELECT PTS FROM Player_Stats WHERE PlayerID = """ + self.compare_player_2_input.text()
+            conn_cur.execute(sql_pts)
+            pts_2 = (conn_cur.fetchall()[0][0]) / max_pts
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_ast_max = """SELECT MAX(AST) FROM Player_Stats;"""
+            conn_cur.execute(sql_ast_max)
+            max_ast = conn_cur.fetchall()[0][0]
+            sql_ast = """SELECT AST FROM Player_Stats WHERE PlayerID = """ + self.compare_player_2_input.text()
+            conn_cur.execute(sql_ast)
+            ast_2 = (conn_cur.fetchall()[0][0]) / max_ast
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_blk_max = """SELECT MAX(BLK) FROM Player_Stats;"""
+            conn_cur.execute(sql_blk_max)
+            max_blk = conn_cur.fetchall()[0][0]
+            sql_blk = """SELECT BLK FROM Player_Stats WHERE PlayerID = """ + self.compare_player_2_input.text()
+            conn_cur.execute(sql_blk)
+            blk_2 = (conn_cur.fetchall()[0][0]) / max_blk
+
+            conn_cur = connect_directly()
+            sql_c = """ USE nba_db"""
+            conn_cur.execute(sql_c)
+            sql_stl_max = """SELECT MAX(STL) FROM Player_Stats;"""
+            conn_cur.execute(sql_stl_max)
+            max_stl = conn_cur.fetchall()[0][0]
+            sql_stl = """SELECT STL FROM Player_Stats WHERE PlayerID = """ + self.compare_player_2_input.text()
+            conn_cur.execute(sql_stl)
+            stl_2 = (conn_cur.fetchall()[0][0]) / max_stl
+
+            sql_name_2 = """SELECT Player FROM Player_Stats WHERE PlayerID = """ + self.compare_player_2_input.text()
+            conn_cur.execute(sql_name_2)
+            name_2 = conn_cur.fetchall()[0][0]
+
+            input_character = ['PTS', 'TRB', 'AST', 'BLK', 'STL']
+            input_num = [pts_2, trb_2, ast_2, blk_2, stl_2]
+            input_name = name_2
+            labels = np.array(input_character)
+            # 数据个数
+            dataLenth = len(input_num)
+            # 数据
+            data = np.array(input_num)
+            # 分割圆周长
+            angles = np.linspace(0, 2 * np.pi, dataLenth, endpoint=False)
+            # 闭合
+            data = np.concatenate((data, [data[0]]))
+            # 闭合
+            angles = np.concatenate((angles, [angles[0]]))
+            # 设置画布大小
+            fig = plt.figure(figsize=(5, 5))
+            # 这里一定要设置为极坐标格式
+            # axes = fig.add_subplot(121, polar=True)
+            loc = np.array([-0.1, 0.9])
+            # 画若干个五边形
+            floor = np.floor(loc.min())  # 大于最小值的最大整数
+            ceil = np.ceil(loc.max())  # 小于最大值的最小整数
+            for i in np.arange(floor, ceil + 2, 2):
+                self.MplWidget2.canvas.axes.plot(angles, [i] * (int(len(labels)) + 1), '-', lw=0.3, color='black')
+
+            self.MplWidget2.canvas.axes.clear()
+            # self.MplWidget2_2.canvas.axes.spines['polar'].set_visible(False)  # 不显示极坐标最外圈的圆
+            self.MplWidget2.canvas.axes.grid(False)  # 不显示默认的分割线
+            self.MplWidget2.canvas.axes.set_yticks([])  # 不显示坐标间隔
+            self.MplWidget2.canvas.axes.plot(angles, data, 'ro-', linewidth=2)
+            self.MplWidget2.canvas.axes.set_thetagrids(angles * 180 / np.pi, labels)
+            self.MplWidget2.canvas.axes.set_title('capability radar map of ' + input_name, va='bottom',
+                                                    fontproperties="SimHei")
+            self.MplWidget2.canvas.axes.grid(True)
+            self.MplWidget2.canvas.axes.set_title(str(input_name))
+            self.MplWidget2.canvas.draw()
+
+            n = len(input_num)
+            for i in range(n - 1, -1, -1):
+                for j in range(i, n - 1):
+                    if input_num[j] < input_num[j + 1]:
+                        input_num[j], input_num[j + 1] = input_num[j + 1], input_num[j]
+                        input_character[j], input_character[j + 1] = input_character[j + 1], input_character[j]
+            s = ''
+
+            s = input_name + '的'
+            s = s + input_character[0] + '和' + input_character[1] + '比较出众。'
+            self.label_3.setText(s)
+
+            conn_cur.close()
+        except Exception as e:
+            self.statusBar().showMessage("出现错误: " + str(e))
+        ###########################输出数据结果######################################
+
+        try:
+            conn_cur = connect_directly()
+
+            player_id_1 = self.compare_player_1_input.text()
+            sql_id_search = '''use nba_db
+                               SELECT Player, PTS, AST, TRB, BLK, STL FROM Player_Stats WHERE PlayerID = ''' + player_id_1 + ';'
+            try:
+                conn_cur.execute(sql_id_search)
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                self.compare_player_1_tablewidget.setRowCount(row)
+                self.compare_player_1_tablewidget.setColumnCount(vol)
+
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.compare_player_1_tablewidget.setItem(i, j, data)
+                conn_cur.close()
+                # 消息提示
+            except Exception as e:
+                self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+        try:
+            conn_cur = connect_directly()
+            player_id_2 = self.compare_player_2_input.text()
+            sql_id_search_2 = '''use nba_db
+                               SELECT Player, PTS, AST, TRB, BLK, STL FROM Player_Stats WHERE PlayerID = ''' + player_id_2 + ';'
+            try:
+                conn_cur.execute(sql_id_search_2)
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                self.compare_player_1_tablewidget_2.setRowCount(row)
+                self.compare_player_1_tablewidget_2.setColumnCount(vol)
+
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.compare_player_1_tablewidget_2.setItem(i, j, data)
+                conn_cur.close()
+                # 消息提示
+            except Exception as e:
+                self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
     def show_all_players(self):
         try:
@@ -221,7 +516,6 @@ class normal_user(QMainWindow, normal_ui):
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
-
     def show_all_game_data(self):
         try:
             conn_cur = connect_directly()
@@ -251,7 +545,6 @@ class normal_user(QMainWindow, normal_ui):
             conn_cur.close()
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
-
 
     def search_player_id(self):
 
@@ -424,6 +717,7 @@ class MainApp(QMainWindow, ui):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.handle_ui_change()
+        self.setWindowTitle("Manager controller")
         self.handle_buttons()
         self.show()
 
@@ -458,9 +752,6 @@ class MainApp(QMainWindow, ui):
         self.theme_button.clicked.connect(self.dark_gray_theme)
         self.add_user_button.clicked.connect(self.add_user)
 
-
-
-
     # 选项卡的联动
     def open_player_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(0)
@@ -487,7 +778,6 @@ class MainApp(QMainWindow, ui):
         style = style.read()
         self.setStyleSheet(style)
 
-
     # 数据库的连接处理
     def add_data_all(self):
         global super_user_id, super_user_pwd
@@ -507,7 +797,8 @@ class MainApp(QMainWindow, ui):
                             super_user_pwd VARCHAR(MAX) NOT NULL);"""
             conn_cur.execute(sql_create)
             sql_add = """   
-                            USE nba_db INSERT INTO superuser(super_user_name, super_user_pwd) VALUES (""" + "'" + str(user_id) + "'" + ",'" + str(pwd_hs) + "');"
+                            USE nba_db INSERT INTO superuser(super_user_name, super_user_pwd) VALUES (""" + "'" + str(
+                user_id) + "'" + ",'" + str(pwd_hs) + "');"
             conn_cur.execute(sql_add)
             conn_cur.commit()
             conn_cur.close()
@@ -526,6 +817,8 @@ class MainApp(QMainWindow, ui):
             conn_cur = connect_mssql(user_id, user_pwd)
 
             sql_create_table = r'''
+                            IF NOT EXISTS(select * From master.dbo.sysdatabases where name='nba_db')
+                    		CREATE DATABASE nba_db                            
                             use nba_db
                             CREATE TABLE Teams(
                             TeamID INT NOT NULL,
@@ -798,7 +1091,6 @@ class MainApp(QMainWindow, ui):
 
                 ans = QMessageBox.question(self, "警告", "操作不可逆，确定继续？", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
                 if ans == QMessageBox.Yes:
-
                     conn_cur.execute(sql_delete)
                     conn_cur.commit()
                     # 消息提示
@@ -1291,9 +1583,8 @@ class MainApp(QMainWindow, ui):
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
-
-###############################################user management system##########################################
-###############################################################################################################
+    ###############################################user management system##########################################
+    ###############################################################################################################
     def add_user(self):
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
@@ -1302,11 +1593,12 @@ class MainApp(QMainWindow, ui):
             name = self.lineEditname.text()
             pwd = self.lineEdit_2.text()
             pwd_confirm = self.lineEdit_3.text()
-            if pwd ==pwd_confirm:
+            if pwd == pwd_confirm:
                 hs = hashlib.md5(bytes("交大NB", encoding='UTF-8'))
                 hs.update(bytes(pwd, encoding='UTF-8'))
                 pwd_hs = hs.hexdigest()
-                sql_add = """USE nba_db INSERT INTO users(user_name, user_pwd) VALUES (""" + "'" + str(name) + "'"+ ",'" + str(pwd_hs) + "');"
+                sql_add = """USE nba_db INSERT INTO users(user_name, user_pwd) VALUES (""" + "'" + str(
+                    name) + "'" + ",'" + str(pwd_hs) + "');"
                 try:
                     conn_cur.execute(sql_add)
                     conn_cur.commit()
@@ -1326,6 +1618,7 @@ class MainApp(QMainWindow, ui):
 
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
 
 def main():
     app = QApplication([])

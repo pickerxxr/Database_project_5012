@@ -1,11 +1,5 @@
 # 数据库的工具汇总
 import pyodbc
-import sys
-
-import qdarkstyle
-# from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtWidgets import *
 
 # 数据库的连接
 def connect_mssql(user_id, user_pwd):
