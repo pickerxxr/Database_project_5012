@@ -16,8 +16,8 @@
   <widget class="QLabel" name="error_message">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>9</y>
+     <x>100</x>
+     <y>170</y>
      <width>281</width>
      <height>31</height>
     </rect>
@@ -55,8 +55,8 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>10</y>
+     <x>110</x>
+     <y>20</y>
      <width>160</width>
      <height>104</height>
     </rect>
@@ -77,8 +77,8 @@
   <widget class="QPushButton" name="init_user_button">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>120</y>
+     <x>110</x>
+     <y>140</y>
      <width>161</width>
      <height>41</height>
     </rect>
@@ -92,7 +92,7 @@
     <rect>
      <x>35</x>
      <y>30</y>
-     <width>81</width>
+     <width>61</width>
      <height>18</height>
     </rect>
    </property>
@@ -105,8 +105,8 @@
     <rect>
      <x>50</x>
      <y>80</y>
-     <width>81</width>
-     <height>18</height>
+     <width>41</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">

@@ -25,7 +25,7 @@ class LoginApp(QWidget, login):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
-        self.init_user_button.clicked.connect(self.handel_login)
+        self.init_user_button.clicked.connect(self.handle_login)
         style = open("themes/darkorange.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
@@ -37,7 +37,7 @@ class LoginApp(QWidget, login):
         hs.update(bytes(arg, encoding='utf-8'))
         return hs.hexdigest()
 
-    def handel_login(self):
+    def handle_login(self):
         conn_cur = connect_mssql('sa', '123456')
         name = self.name_init.text()
         pwd = self.pwd_init.text()
@@ -56,7 +56,6 @@ class LoginApp(QWidget, login):
             self.main_app = normal_user()
             self.close()
             self.main_app.show()
-
         else:
             self.error_message.setText("用户名或密码错误，重新输入")
 
@@ -74,8 +73,349 @@ class normal_user(QMainWindow, normal_ui):
         self.setupUi(self)
         self.handle_buttons()
         self.show()
+        self.user_name_show.setText("已连接")
+
+    def md5(self, arg):
+        hs = hashlib.md5(bytes("交大NB", encoding="utf-8"))
+        hs.update(bytes(arg, encoding='utf-8'))
+        return hs.hexdigest()
+
     def handle_buttons(self):
-        pass
+        self.show_all_pushButton.clicked.connect(self.show_all_players)
+        self.score_order_button.clicked.connect(self.pts_order)
+        self.trb_order_button.clicked.connect(self.trb_order)
+        self.ast_order_button.clicked.connect(self.ast_order)
+        self.player_search_ID_button.clicked.connect(self.search_player_id)
+        self.player_search_name_exact_button.clicked.connect(self.search_player_name)
+        self.player_search_name_fuzzy_button.clicked.connect(self.search_player_name_fuzzy)
+        self.team_show_all_button.clicked.connect(self.show_all_teams)
+        self.game_show_all_button.clicked.connect(self.show_all_game_data)
+
+    def show_all_players(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_players_data = '''
+                                 use nba_db
+                                 SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats;
+                                 '''
+            try:
+                conn_cur.execute(all_players_data)
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                self.player_tableWidget.setRowCount(row)
+                self.player_tableWidget.setColumnCount(vol)
+
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.player_tableWidget.setItem(i, j, data)
+                conn_cur.close()
+            except Exception as e:
+                self.statusBar().showMessage("错误: " + str(e))
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def pts_order(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_players_data = '''
+                                         use nba_db
+                                         SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats ORDER BY PTS DESC;
+                                         '''
+
+            try:
+                conn_cur.execute(all_players_data)
+            except Exception as e:
+                self.statusBar().showMessage("错误：" + str(e))
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+            self.player_tableWidget.setRowCount(row)
+            self.player_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def trb_order(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_players_data = '''
+                                         use nba_db
+                                         SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats ORDER BY TRB DESC;
+                                         '''
+
+            conn_cur.execute(all_players_data)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+            self.player_tableWidget.setRowCount(row)
+            self.player_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def ast_order(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_players_data = '''
+                             use nba_db
+                             SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats ORDER BY AST DESC;
+                             '''
+
+            conn_cur.execute(all_players_data)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+            self.player_tableWidget.setRowCount(row)
+            self.player_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.player_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+
+    def show_all_game_data(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_games_data = '''
+                             use nba_db
+                             select * from Game_stats;
+                             '''
+            conn_cur.execute(all_games_data)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+            self.games_show_all_tableWidget.setRowCount(row)
+            self.games_show_all_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.games_show_all_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+
+    def search_player_id(self):
+
+        try:
+            conn_cur = connect_directly()
+
+            player_id = self.player_search_ID_input.text()
+            sql_id_search = '''use nba_db
+                               SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE PlayerID = ''' + player_id + ';'
+            try:
+                conn_cur.execute(sql_id_search)
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                self.player_search_tableWidget.setRowCount(row)
+                self.player_search_tableWidget.setColumnCount(vol)
+
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.player_search_tableWidget.setItem(i, j, data)
+                conn_cur.close()
+                # 消息提示
+                self.statusBar().showMessage("搜索完成！")
+            except Exception as e:
+                self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def search_player_name(self):
+        try:
+            conn_cur = connect_directly()
+
+            try:
+
+                player_name = self.player_search_name_exact_input.text()
+                sql_name_search = "use nba_db SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE " \
+                                  "Player = '" + str(player_name) + "';"
+
+                try:
+                    conn_cur.execute(sql_name_search)
+                    # 消息提示
+                    self.statusBar().showMessage("搜索完成！")
+
+                except Exception as e:
+                    self.statusBar().showMessage("搜索失败:" + str(e))
+
+                try:
+                    while conn_cur.nextset():  # NB: This always skips the first result set
+                        try:
+                            results = conn_cur.fetchall()
+                            break
+                        except pyodbc.ProgrammingError:
+                            continue
+                    conn_cur.close()
+
+                    row = len(results)  # 取得记录个数，用于设置表格的行数
+                    vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                    self.player_search_tableWidget.setRowCount(row)
+                    self.player_search_tableWidget.setColumnCount(vol)
+
+                    for i in range(row):
+                        for j in range(vol):
+                            temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                            data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                            self.player_search_tableWidget.setItem(i, j, data)
+                except Exception as e:
+                    self.statusBar().showMessage("出现错误: 数据不存在")
+            except pyodbc.Error:
+                self.statusBar().showMessage("未登录！")
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def search_player_name_fuzzy(self):
+        try:
+            conn_cur = connect_directly()
+
+            player_name = self.player_search_name_fuzzy_input.text()
+            sql_name_search = """DECLARE @NAME Varchar(100), @str1 Varchar(100), @str2 Varchar(100), @num Int, @n Int
+                                SELECT @NAME = '""" + player_name + """'
+                                SELECT @str1 = '%' + @NAME + '%'
+                                SELECT @str2 = ''
+                                SELECT @n = LEN(@NAME)
+                                SELECT @num = 1
+                                WHILE @num < @n
+                                    BEGIN 
+                                        SET @str2 = @str2 + substring(@NAME, @num, 1)+ '% '
+                                        SET @num = @num + 1
+                                    END
+                                SET @str2 = @str2 + substring(@NAME, @n, 1) + '%'
+                                USE nba_db
+                                SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE Player LIKE @str2
+                                UNION 
+                                SELECT PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK FROM Player_Stats WHERE Player LIKE @str1"""
+            try:
+                conn_cur.execute(sql_name_search)
+                # 消息提示
+                self.statusBar().showMessage("搜索完成！")
+            except Exception as e:
+                self.statusBar().showMessage("搜索失败:" + str(e))
+
+            try:
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                self.player_search_tableWidget.setRowCount(row)
+                self.player_search_tableWidget.setColumnCount(vol)
+
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.player_search_tableWidget.setItem(i, j, data)
+            except Exception as e:
+                self.statusBar().showMessage("出现错误: 数据不存在")
+            conn_cur.close()
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def show_all_teams(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_teams_data = '''
+                                         use nba_db
+                                         SELECT * FROM Teams;
+                                         '''
+
+            conn_cur.execute(all_teams_data)
+            while conn_cur.nextset():  # NB: This always skips the first result set
+                try:
+                    results = conn_cur.fetchall()
+                    break
+                except pyodbc.ProgrammingError:
+                    continue
+            row = len(results)  # 取得记录个数，用于设置表格的行数
+            vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+            self.team_show_all_tableWidget.setRowCount(row)
+            self.team_show_all_tableWidget.setColumnCount(vol)
+
+            for i in range(row):
+                for j in range(vol):
+                    temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                    data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                    self.team_show_all_tableWidget.setItem(i, j, data)
+            conn_cur.close()
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
 
 class MainApp(QMainWindow, ui):
 
@@ -119,6 +459,7 @@ class MainApp(QMainWindow, ui):
         self.add_user_button.clicked.connect(self.add_user)
 
 
+
     # 选项卡的联动
     def open_player_tab(self):
         self.tabWidget_allfunc.setCurrentIndex(0)
@@ -147,13 +488,31 @@ class MainApp(QMainWindow, ui):
 
     # 数据库的连接处理
     def add_data_all(self):
+        global super_user_id, super_user_pwd
+
         user_id = self.username_input.text()
         user_pwd = self.password_input.text()
+        super_user_id = user_id
+        super_user_pwd = user_pwd
         try:
             conn_cur = connect_mssql(user_id, user_pwd)
+            hs = hashlib.md5(bytes("交大NB", encoding='UTF-8'))
+            hs.update(bytes(user_pwd, encoding='UTF-8'))
+            pwd_hs = hs.hexdigest()
+            sql_create = """USE nba_db
+                            CREATE TABLE superuser(
+                            super_user_name VARCHAR(50) NOT NULL,
+                            super_user_pwd VARCHAR(MAX) NOT NULL);"""
+            conn_cur.execute(sql_create)
+            sql_add = """   
+                            USE nba_db INSERT INTO superuser(super_user_name, super_user_pwd) VALUES (""" + "'" + str(user_id) + "'" + ",'" + str(pwd_hs) + "');"
+            conn_cur.execute(sql_add)
+            conn_cur.commit()
+            conn_cur.close()
+
             # 消息提示
             self.statusBar().showMessage("连接成功！")
-            conn_cur.close()
+
         except Exception as e:
             self.statusBar().showMessage("连接错误:" + str(e))
 
@@ -259,7 +618,8 @@ class MainApp(QMainWindow, ui):
                             user_name VARCHAR(50) NOT NULL,
                             user_pwd VARCHAR(MAX) NOT NULL,
                             PRIMARY KEY(user_name));
-                            
+                        
+                                                       
                             
                               '''
             data_folder_dir = self.dir_input.text()

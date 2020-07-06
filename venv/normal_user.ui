@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1102</width>
-    <height>724</height>
+    <height>774</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QTabWidget" name="tabWidget_allfunc">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>20</y>
-     <width>791</width>
-     <height>701</height>
+     <x>60</x>
+     <y>80</y>
+     <width>951</width>
+     <height>641</height>
     </rect>
    </property>
    <property name="tabShape">
@@ -37,7 +37,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>731</width>
+       <width>971</width>
        <height>641</height>
       </rect>
      </property>
@@ -48,7 +48,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="player_show_all_player_tab">
       <attribute name="title">
@@ -158,7 +158,7 @@
       <widget class="QPushButton" name="player_search_ID_button">
        <property name="geometry">
         <rect>
-         <x>440</x>
+         <x>550</x>
          <y>18</y>
          <width>112</width>
          <height>34</height>
@@ -171,7 +171,7 @@
       <widget class="QLineEdit" name="player_search_ID_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>220</x>
          <y>20</y>
          <width>271</width>
          <height>31</height>
@@ -181,7 +181,7 @@
       <widget class="QPushButton" name="player_search_name_exact_button">
        <property name="geometry">
         <rect>
-         <x>440</x>
+         <x>550</x>
          <y>90</y>
          <width>112</width>
          <height>34</height>
@@ -194,7 +194,7 @@
       <widget class="QLineEdit" name="player_search_name_exact_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>220</x>
          <y>92</y>
          <width>271</width>
          <height>31</height>
@@ -204,7 +204,7 @@
       <widget class="QPushButton" name="player_search_name_fuzzy_button">
        <property name="geometry">
         <rect>
-         <x>440</x>
+         <x>550</x>
          <y>168</y>
          <width>161</width>
          <height>34</height>
@@ -217,7 +217,7 @@
       <widget class="QLineEdit" name="player_search_name_fuzzy_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>220</x>
          <y>170</y>
          <width>271</width>
          <height>31</height>
@@ -228,8 +228,8 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>270</y>
-         <width>721</width>
+         <y>230</y>
+         <width>921</width>
          <height>351</height>
         </rect>
        </property>
@@ -286,7 +286,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>801</width>
+       <width>971</width>
        <height>671</height>
       </rect>
      </property>
@@ -303,7 +303,7 @@
       <widget class="QPushButton" name="team_show_all_button">
        <property name="geometry">
         <rect>
-         <x>260</x>
+         <x>299</x>
          <y>20</y>
          <width>251</width>
          <height>34</height>
@@ -318,7 +318,7 @@
         <rect>
          <x>20</x>
          <y>80</y>
-         <width>751</width>
+         <width>891</width>
          <height>541</height>
         </rect>
        </property>
@@ -360,7 +360,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>801</width>
+       <width>971</width>
        <height>671</height>
       </rect>
      </property>
@@ -392,7 +392,7 @@
         <rect>
          <x>0</x>
          <y>60</y>
-         <width>791</width>
+         <width>931</width>
          <height>581</height>
         </rect>
        </property>
@@ -510,7 +510,7 @@
     <widget class="QLineEdit" name="compare_player_2_input">
      <property name="geometry">
       <rect>
-       <x>600</x>
+       <x>690</x>
        <y>50</y>
        <width>113</width>
        <height>25</height>
@@ -520,7 +520,7 @@
     <widget class="QLabel" name="compare_player_2_label">
      <property name="geometry">
       <rect>
-       <x>492</x>
+       <x>582</x>
        <y>55</y>
        <width>91</width>
        <height>18</height>
@@ -533,7 +533,7 @@
     <widget class="QTableWidget" name="compare_player_2_tablewidget">
      <property name="geometry">
       <rect>
-       <x>420</x>
+       <x>521</x>
        <y>130</y>
        <width>351</width>
        <height>181</height>
@@ -568,7 +568,7 @@
     <widget class="QPushButton" name="cmpare_confirm_pushbutton">
      <property name="geometry">
       <rect>
-       <x>330</x>
+       <x>394</x>
        <y>80</y>
        <width>112</width>
        <height>34</height>
@@ -667,61 +667,30 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>130</y>
-     <width>112</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>连接数据库</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>40</y>
-     <width>160</width>
-     <height>80</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLineEdit" name="id"/>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="pwd"/>
-    </item>
-   </layout>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>52</y>
-     <width>81</width>
+     <x>790</x>
+     <y>40</y>
+     <width>91</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
-    <string>用户名</string>
+    <string>登录状态:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="user_name_show">
    <property name="geometry">
     <rect>
-     <x>15</x>
-     <y>90</y>
-     <width>81</width>
-     <height>18</height>
+     <x>890</x>
+     <y>39</y>
+     <width>101</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>密码</string>
+    <string/>
    </property>
   </widget>
  </widget>

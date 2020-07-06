@@ -34,12 +34,12 @@ def connect_directly():
                               'SERVER=localhost;'
                               'DATABASE = nba;'
                               'InitialCatalog=dbo;'
-                              'UID=sa;PWD=123456')
+                              'UID=' + 'sa' + ';' + 'PWD=' + '123456')
 
         cursor = conn.cursor()
         return cursor
     except pyodbc.Error:
-        print("数据库连接错误")
+        print("连接失败")
 
 
 # 关闭连接
