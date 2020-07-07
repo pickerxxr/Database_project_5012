@@ -1,24 +1,18 @@
 # encoding: utf-8
-# Author    : Alan Liu<pickerxxr@gmail.com >
-# Datetime  : ${DATE} ${TIME}
-# User      : ${USER}
-# Product   : ${PRODUCT_NAME}
+# Author    : Alan Liu <pickerxxr@gmail.com >
+# Datetime  : 2020-7-7
+# Product   : ${NBA Management system by Fudan 5012}
 # Project   : ${PROJECT_NAME}
-# File      : ${NAME}.py
-# explain   : PyQt5 NBA数据管理系统 开发
+# explain   : PyQt5 NBA数据管理系统
 import sys
 
-from PyQt5.QtWidgets import *
 import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-
+from mplwidget_2 import *
 matplotlib.use("Qt5Agg")
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from mplwidget import *
 from PyQt5.uic import loadUiType
-from PyQt5.uic import loadUi
 
 import pyodbc
 import hashlib
@@ -120,15 +114,15 @@ class normal_user(QMainWindow, normal_ui):
         self.cmpare_confirm_pushbutton.clicked.connect(self.compare_players)
         self.hist_button.clicked.connect(self.hist)
         self.pushButton.clicked.connect(self.sort_team)
+        self.pushButton_2.clicked.connect(self.pts_and_lost_pts_order)
     ###########################################################球队排名############################################
 
     def sort_team(self):
-
         conn_cur = connect_directly()
         sql_use = """use nba_db"""
         conn_cur_2 = connect_directly()
         sql_q = """ USE nba_db
-                    SELECT * FROM sort_team ORDER BY win_rate DESC ;"""
+                    SELECT TeamID, TeamName, win_rate, play_sum, win_sum, lose_sum FROM sort_team ORDER BY win_rate DESC ;"""
         conn_cur_2.execute(sql_q)
         while conn_cur_2.nextset():  # NB: This always skips the first result set
             try:
@@ -148,6 +142,52 @@ class normal_user(QMainWindow, normal_ui):
                 data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                 self.tableWidget_2.setItem(i, j, data)
         conn_cur.close()
+
+    def pts_and_lost_pts_order(self):
+        conn_cur_1 = connect_directly()
+        sql_use = """USE nba_db"""
+        sql_sum = """(SELECT COUNT(*) FROM sort_team)"""
+        conn_cur_1.execute(sql_use)
+        conn_cur_1.execute(sql_sum)
+        sumnum = conn_cur_1.fetchall()[0][0]
+        conn_cur_2 = connect_directly()
+        sql_self = """
+                    SELECT TOP 3 * FROM sort_team ORDER BY avg_pts DESC;
+                   """
+        conn_cur_2.execute(sql_use)
+        conn_cur_2.execute(sql_self)
+        re = conn_cur_2.fetchall()
+        most_pts = []
+        most_pts_label = []
+
+        for i in range(3):
+            most_pts.append(re[i][6])
+            most_pts_label.append(re[i][1])
+
+        sql_self_2 = """SELECT TOP 3 * FROM sort_team ORDER BY avg_op_pts;"""
+        conn_cur_2.execute(sql_use)
+        conn_cur_2.execute(sql_self_2)
+        re_2 = conn_cur_2.fetchall()
+        least_pts = []
+        least_pts_label = []
+
+        for i in range(3):
+            least_pts.append(re_2[i][8])
+            least_pts_label.append(re_2[i][1])
+        conn_cur_1.close()
+        conn_cur_2.close()
+
+        # PLot the graph
+        self.widget.canvas_2.axes_2.tick_params(labelsize=7)
+        self.widget_2.canvas_2.axes_2.tick_params(labelsize=7)
+        self.widget.canvas_2.axes_2.bar(most_pts_label, most_pts)
+        self.widget_2.canvas_2.axes_2.bar(least_pts_label, least_pts)
+        for x, y in zip(most_pts_label, most_pts):
+            self.widget.canvas_2.axes_2.text(x, y + 0.01, '%.2f' % y, ha='center', va='bottom', fontsize=7)
+        for x, y in zip(least_pts_label, least_pts):
+            self.widget_2.canvas_2.axes_2.text(x, y + 0.01, '%.2f' % y, ha='center', va='bottom', fontsize=7)
+        self.widget.canvas_2.draw()
+        self.widget_2.canvas_2.draw()
 
     def compare_players(self):
         conn_cur = connect_directly()
@@ -220,9 +260,7 @@ class normal_user(QMainWindow, normal_ui):
             # 闭合
             angles = np.concatenate((angles, [angles[0]]))
             # 设置画布大小
-            fig = plt.figure(figsize=(5, 5))
             # 这里一定要设置为极坐标格式
-            # axes = fig.add_subplot(121, polar=True)
             loc = np.array([-0.1, 0.9])
             # 画若干个五边形
             floor = np.floor(loc.min())  # 大于最小值的最大整数
@@ -323,10 +361,6 @@ class normal_user(QMainWindow, normal_ui):
             data = np.concatenate((data, [data[0]]))
             # 闭合
             angles = np.concatenate((angles, [angles[0]]))
-            # 设置画布大小
-            fig = plt.figure(figsize=(5, 5))
-            # 这里一定要设置为极坐标格式
-            # axes = fig.add_subplot(121, polar=True)
             loc = np.array([-0.1, 0.9])
             # 画若干个五边形
             floor = np.floor(loc.min())  # 大于最小值的最大整数
@@ -340,8 +374,7 @@ class normal_user(QMainWindow, normal_ui):
             self.MplWidget2.canvas.axes.set_yticks([])  # 不显示坐标间隔
             self.MplWidget2.canvas.axes.plot(angles, data, 'ro-', linewidth=2)
             self.MplWidget2.canvas.axes.set_thetagrids(angles * 180 / np.pi, labels)
-            self.MplWidget2.canvas.axes.set_title('capability radar map of ' + input_name, va='bottom',
-                                                    fontproperties="SimHei")
+
             self.MplWidget2.canvas.axes.grid(True)
             self.MplWidget2.canvas.axes.set_title(str(input_name))
             self.MplWidget2.canvas.draw()
@@ -425,6 +458,7 @@ class normal_user(QMainWindow, normal_ui):
                 self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
 
     def hist(self):
         try:
@@ -1499,34 +1533,46 @@ class MainApp(QMainWindow, ui):
                 # 消息提示
                 self.statusBar().showMessage("添加成功！")
                 sql_refresh = """
-                                DECLARE @input_game_id INT
-                                SET @input_game_id = """ + games_add_home_id_input + """
-
-                                DECLARE @sum_data INT, @now_num INT, @home_id INT, @home_name varchar(100), @away_id INT, @away_name varchar(100), @home_pts INT, @away_pts INT 
-                                SELECT @home_id = home_id, @away_id = away_id, @home_name = home_name, @away_name = away_name, @home_pts = home_pts, @away_pts = away_pts FROM Game_Stats WHERE game_id = @input_game_id
-
-                                IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @home_id)
-                                BEGIN
-                                INSERT INTO sort_team VALUES(@home_id, @home_name, 0, 0, 0, 0)
-                                END
-                                IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @away_id)
-                                BEGIN
-                                INSERT INTO sort_team VALUES(@away_id, @away_name, 0, 0, 0, 0)
-                                END
-                                IF @home_pts > @away_pts
-                                BEGIN 
-                                UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
-                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
-                                UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
-                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
-                                END
-                                ELSE
-                                BEGIN
-                                UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
-                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
-                                UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
-                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
-                                END
+                            DECLARE @input_game_id INT
+                            SET @input_game_id = """+ game_id + """
+                            
+                            DECLARE @sum_data INT,  @home_id INT, @home_name varchar(100), @away_id INT, @away_name varchar(100), @home_pts INT, @away_pts INT 
+                            SELECT @home_id = home_id, @away_id = away_id, @home_name = home_name, @away_name = away_name, @home_pts = home_pts, @away_pts = away_pts FROM Game_Stats WHERE game_id = @input_game_id
+                            IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @home_id)
+                            BEGIN
+                            INSERT INTO sort_team VALUES(@home_id, @home_name, 0, 0, 0, 0, 0, 0, 0, 0)
+                            END
+                            IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @away_id)
+                            BEGIN
+                            INSERT INTO sort_team VALUES(@away_id, @away_name, 0, 0, 0, 0, 0, 0, 0, 0)
+                            END
+                            
+                            
+                            IF @home_pts > @away_pts
+                            BEGIN 
+                            UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1  WHERE TeamID = @home_id
+                            UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
+                            UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
+                            UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
+                            END
+                            ELSE
+                            BEGIN
+                            UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
+                            UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
+                            UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
+                            UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
+                            END
+                            
+                            
+                            UPDATE sort_team SET all_pts = all_pts + @home_pts WHERE TeamID = @home_id
+                            UPDATE sort_team SET all_op_pts = all_op_pts + @away_pts WHERE TeamID = @home_id
+                            UPDATE sort_team SET all_op_pts = all_op_pts + @home_pts WHERE TeamID = @away_id
+                            UPDATE sort_team SET all_pts = all_pts + @away_pts WHERE TeamID = @away_id
+                            
+                            UPDATE sort_team SET avg_pts = all_pts / play_sum WHERE TeamID = @home_id
+                            UPDATE sort_team SET avg_op_pts = all_op_pts / play_sum WHERE TeamID = @home_id
+                            UPDATE sort_team SET avg_op_pts = all_op_pts / play_sum WHERE TeamID = @away_id
+                            UPDATE sort_team SET avg_pts = all_pts / play_sum WHERE TeamID = @away_id
                         """
                 conn_cur_3.execute(sql_refresh)
                 self.games_add_home_date_input.setText('')

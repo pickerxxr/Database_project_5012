@@ -11,15 +11,15 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-class MplWidget(QWidget):
+class MplWidget_2(QWidget):
 
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
 
-        self.canvas = FigureCanvas(Figure())
+        self.canvas_2 = FigureCanvas(Figure())
 
         vertical_layout = QVBoxLayout()
-        vertical_layout.addWidget(self.canvas)
+        vertical_layout.addWidget(self.canvas_2)
 
-        self.canvas.axes = self.canvas.figure.add_subplot(111, polar=True)
+        self.canvas_2.axes_2 = self.canvas_2.figure.add_subplot(111, polar=False)
         self.setLayout(vertical_layout)
