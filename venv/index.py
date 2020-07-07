@@ -29,7 +29,27 @@ from connect_mssql import connect_mssql, close_conn, connect_directly
 ui, _ = loadUiType('main.ui')
 login, _ = loadUiType('choose_user.ui')
 normal_ui, _ = loadUiType('normal_user.ui')
+hello_ui, _ = loadUiType('hello.ui')
 
+class helloApp(QWidget, hello_ui):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.setWindowTitle("Choose")
+        self.setupUi(self)
+        style = open("themes/darkorange.css", 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+        self.pushButton_2.clicked.connect(self.manage)
+        self.pushButton.clicked.connect(self.user_mode)
+        self.pushButton_3.clicked.connect(self.close)
+
+    def user_mode(self):
+        self.main_app = LoginApp()
+        self.main_app.show()
+
+    def manage(self):
+        self.main_app = MainApp()
+        self.main_app.show()
 
 class LoginApp(QWidget, login):
     def __init__(self):
@@ -40,8 +60,6 @@ class LoginApp(QWidget, login):
         style = open("themes/darkorange.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
-        self.init_manage_button.clicked.connect(self.manage)
-        self.init_quit_button.clicked.connect(self.close)
 
     def md5(self, arg):
         hs = hashlib.md5(bytes("交大NB", encoding="utf-8"))
@@ -66,12 +84,10 @@ class LoginApp(QWidget, login):
         if results:
             self.main_app = normal_user()
             self.main_app.show()
+            self.close()
         else:
             self.error_message.setText("用户名或密码错误，重新输入")
 
-    def manage(self):
-        self.main_app = MainApp()
-        self.main_app.show()
 
 
 
@@ -1657,7 +1673,7 @@ class MainApp(QMainWindow, ui):
 
 def main():
     app = QApplication([])
-    window = LoginApp()
+    window = helloApp()
     window.show()
     app.exec_()
 
