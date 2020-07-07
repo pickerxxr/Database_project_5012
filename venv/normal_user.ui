@@ -449,6 +449,59 @@
     <attribute name="title">
      <string>历史球员最高得分</string>
     </attribute>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>901</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>新建列</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Points</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Team Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Team points</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Opp Team</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="hist_button">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>10</y>
+       <width>271</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>显示历史得分榜</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="compare_tab">
     <attribute name="title">

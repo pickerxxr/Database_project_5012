@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1081</width>
+    <width>1082</width>
     <height>789</height>
    </rect>
   </property>
@@ -33,34 +33,6 @@
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/players.png</normaloff>:/icons/players.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>30</width>
-     <height>30</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="player_compare_button">
-   <property name="geometry">
-    <rect>
-     <x>49</x>
-     <y>487</y>
-     <width>161</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Microsoft JhengHei UI</family>
-    </font>
-   </property>
-   <property name="text">
-    <string>球员数据对比</string>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/compare.png</normaloff>:/icons/compare.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1603,7 +1575,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>560</y>
+     <y>490</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -1626,7 +1598,7 @@
    <property name="geometry">
     <rect>
      <x>47</x>
-     <y>630</y>
+     <y>560</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -1643,7 +1615,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>700</y>
+     <y>630</y>
      <width>161</width>
      <height>34</height>
     </rect>

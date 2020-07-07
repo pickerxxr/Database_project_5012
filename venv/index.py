@@ -105,6 +105,7 @@ class normal_user(QMainWindow, normal_ui):
         self.team_show_all_button.clicked.connect(self.show_all_teams)
         self.game_show_all_button.clicked.connect(self.show_all_game_data)
         self.cmpare_confirm_pushbutton.clicked.connect(self.compare_players)
+        self.hist_button.clicked.connect(self.hist)
 
     def compare_players(self):
         conn_cur = connect_directly()
@@ -381,6 +382,39 @@ class normal_user(QMainWindow, normal_ui):
                 # 消息提示
             except Exception as e:
                 self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
+        except Exception as e:
+            QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+    def hist(self):
+        try:
+            conn_cur = connect_directly()
+
+            all_players_data = '''
+                                 use nba_db
+                                 SELECT Name, Points, PlayYear, TeamName, TeamScore FROM Top_Scorers;
+                                 '''
+            try:
+                conn_cur.execute(all_players_data)
+                while conn_cur.nextset():  # NB: This always skips the first result set
+                    try:
+                        results = conn_cur.fetchall()
+                        break
+                    except pyodbc.ProgrammingError:
+                        continue
+                row = len(results)  # 取得记录个数，用于设置表格的行数
+                vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+                self.tableWidget.setRowCount(row)
+                self.tableWidget.setColumnCount(vol)
+
+                for i in range(row):
+                    for j in range(vol):
+                        temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                        data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                        self.tableWidget.setItem(i, j, data)
+                conn_cur.close()
+            except Exception as e:
+                self.statusBar().showMessage("错误: " + str(e))
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
@@ -724,7 +758,6 @@ class MainApp(QMainWindow, ui):
         self.player_button.clicked.connect(self.open_player_tab)
         self.team_button.clicked.connect(self.open_team_tab)
         self.games_button.clicked.connect(self.open_games_tab)
-        self.player_compare_button.clicked.connect(self.open_compare_tab)
         self.add_login.clicked.connect(self.open_add_user_tab)
 
     # 处理所有button的消息和槽的通信
