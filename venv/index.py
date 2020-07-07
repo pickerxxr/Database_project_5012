@@ -122,7 +122,73 @@ class normal_user(QMainWindow, normal_ui):
         self.game_show_all_button.clicked.connect(self.show_all_game_data)
         self.cmpare_confirm_pushbutton.clicked.connect(self.compare_players)
         self.hist_button.clicked.connect(self.hist)
+        self.pushButton.clicked.connect(self.sort_team)
+    ###########################################################球队排名############################################
 
+    def sort_team(self):
+        conn_cur = connect_directly()
+        try:
+            sql_1 = """ USE nba_db
+                        DECLARE @sum_data INT, @now_num INT, @home_id INT, @home_name varchar(100), @away_id INT, @away_name varchar(100), @home_pts INT, @away_pts INT 
+                        set @sum_data = (SELECT COUNT(*) FROM Game_Stats)
+                        set @now_num = 0
+                        
+                        WHILE @now_num < @sum_data
+                        BEGIN
+                        SELECT @home_id = home_id, @away_id = away_id, @home_name = home_name, @away_name = away_name, @home_pts = home_pts, @away_pts = away_pts FROM Game_Stats WHERE game_id in(SELECT TOP (@now_num + 1) game_id FROM Game_Stats) and game_id not in(SELECT TOP (@now_num) game_id FROM Game_Stats)
+                        IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @home_id)
+                        BEGIN
+                        INSERT INTO sort_team VALUES(@home_id, @home_name, 0, 0, 0, 0)
+                        END
+                        IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @away_id)
+                        BEGIN
+                        INSERT INTO sort_team VALUES(@away_id, @away_name, 0, 0, 0, 0)
+                        END
+                        SET @now_num = @now_num + 1
+                        IF @home_pts > @away_pts
+                        BEGIN	
+                        UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
+                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
+                        UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
+                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
+                        END
+                        ELSE
+                        BEGIN
+                        UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
+                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
+                        UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
+                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
+                        END
+                        END
+"""
+            conn_cur.execute(sql_1)
+            conn_cur.close()
+        except Exception as e:
+            self.statusBar().showMessage("出现错误: " + str(e))
+        conn_cur = connect_directly()
+        sql_use = """use nba_db"""
+        conn_cur_2 = connect_directly()
+        sql_q = """ USE nba_db
+                    SELECT * FROM sort_team ORDER BY win_rate DESC ;"""
+        conn_cur_2.execute(sql_q)
+        while conn_cur_2.nextset():  # NB: This always skips the first result set
+            try:
+                results_2 = conn_cur_2.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results_2)  # 取得记录个数，用于设置表格的行数
+        vol = len(results_2[0])  # 取得字段数，用于设置表格的列数
+
+        self.tableWidget_2.setRowCount(row)
+        self.tableWidget_2.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results_2[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.tableWidget_2.setItem(i, j, data)
+        conn_cur.close()
     def compare_players(self):
         conn_cur = connect_directly()
         try:
