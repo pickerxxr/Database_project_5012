@@ -9,6 +9,9 @@ import sys
 import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
+from PyQt5.QtGui import QIcon
+from qtconsole.qt import QtCore
+
 from mplwidget_2 import *
 matplotlib.use("Qt5Agg")
 from mplwidget import *
@@ -28,11 +31,13 @@ hello_ui, _ = loadUiType('hello.ui')
 class helloApp(QWidget, hello_ui):
     def __init__(self):
         QWidget.__init__(self)
-        self.setWindowTitle("Choose")
         self.setupUi(self)
+        self.setWindowTitle("Choose next")
         style = open("themes/darkorange.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
+        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+
         self.pushButton_2.clicked.connect(self.manage)
         self.pushButton.clicked.connect(self.user_mode)
         self.pushButton_3.clicked.connect(self.close)
@@ -48,12 +53,15 @@ class helloApp(QWidget, hello_ui):
 class LoginApp(QWidget, login):
     def __init__(self):
         QWidget.__init__(self)
-        self.setWindowTitle("Login")
         self.setupUi(self)
+        self.setWindowTitle("login")
+
         self.init_user_button.clicked.connect(self.handle_login)
         style = open("themes/darkorange.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
+        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+
 
     def md5(self, arg):
         hs = hashlib.md5(bytes("交大NB", encoding="utf-8"))
@@ -91,6 +99,8 @@ class normal_user(QMainWindow, normal_ui):
         self.setupUi(self)
         self.handle_buttons()
         self.setWindowTitle("Normal user")
+        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+
         self.show()
         self.user_name_show.setText("已连接")
 
@@ -194,7 +204,7 @@ class normal_user(QMainWindow, normal_ui):
         try:
             sql_c = """ USE nba_db"""
             conn_cur.execute(sql_c)
-            sql_trb_max = """SELECT MAX(DRB) FROM Player_Stats;"""
+            sql_trb_max = """SELECT MAX(TRB) FROM Player_Stats;"""
             conn_cur.execute(sql_trb_max)
             max_trb = conn_cur.fetchall()[0][0]
             sql_trb = """SELECT DRB FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
@@ -826,6 +836,8 @@ class MainApp(QMainWindow, ui):
         self.handle_ui_change()
         self.setWindowTitle("Manager controller")
         self.handle_buttons()
+        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+
         self.show()
 
     # UI 的变化处理
