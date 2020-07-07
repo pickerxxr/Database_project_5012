@@ -475,17 +475,17 @@
      </column>
      <column>
       <property name="text">
+       <string>Play Year</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Team Name</string>
       </property>
      </column>
      <column>
       <property name="text">
        <string>Team points</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Opp Team</string>
       </property>
      </column>
     </widget>
