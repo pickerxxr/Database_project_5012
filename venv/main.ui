@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>303</y>
+     <y>253</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -45,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>537</y>
+     <y>487</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -73,7 +73,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>457</y>
+     <y>407</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -101,7 +101,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>378</y>
+     <y>328</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -129,7 +129,7 @@
    <property name="geometry">
     <rect>
      <x>49</x>
-     <y>231</y>
+     <y>181</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -166,7 +166,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -1603,7 +1603,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>610</y>
+     <y>560</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -1612,8 +1612,8 @@
     <string>注册使用账户</string>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../../../../.designer/backup/icons/add_user.png</normaloff>../../../../.designer/backup/icons/add_user.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/signed.png</normaloff>:/icons/signed.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1626,7 +1626,7 @@
    <property name="geometry">
     <rect>
      <x>47</x>
-     <y>680</y>
+     <y>630</y>
      <width>161</width>
      <height>34</height>
     </rect>
@@ -1636,7 +1636,24 @@
    </property>
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/heat.png</normaloff>:/icons/heat.png</iconset>
+     <normaloff>:/icons/dark.png</normaloff>:/icons/dark.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="theme_button_2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>700</y>
+     <width>161</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>切换日间配色</string>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/sun.png</normaloff>:/icons/sun.png</iconset>
    </property>
   </widget>
  </widget>

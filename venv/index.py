@@ -748,6 +748,7 @@ class MainApp(QMainWindow, ui):
         self.team_show_all_button.clicked.connect(self.show_all_teams)
         self.team_change_button.clicked.connect(self.change_team_data)
         self.theme_button.clicked.connect(self.dark_gray_theme)
+        self.theme_button_2.clicked.connect(self.dark)
         self.add_user_button.clicked.connect(self.add_user)
 
     # 选项卡的联动
@@ -773,6 +774,11 @@ class MainApp(QMainWindow, ui):
 
     def dark_gray_theme(self):
         style = open("themes/darkgray.css", 'r')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def dark(self):
+        style = open("themes/qdark.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
 
