@@ -89,9 +89,6 @@ class LoginApp(QWidget, login):
             self.error_message.setText("用户名或密码错误，重新输入")
 
 
-
-
-
 class normal_user(QMainWindow, normal_ui):
 
     # 定义构造方法
@@ -126,45 +123,7 @@ class normal_user(QMainWindow, normal_ui):
     ###########################################################球队排名############################################
 
     def sort_team(self):
-        conn_cur = connect_directly()
-        try:
-            sql_1 = """ USE nba_db
-                        DECLARE @sum_data INT, @now_num INT, @home_id INT, @home_name varchar(100), @away_id INT, @away_name varchar(100), @home_pts INT, @away_pts INT 
-                        set @sum_data = (SELECT COUNT(*) FROM Game_Stats)
-                        set @now_num = 0
-                        
-                        WHILE @now_num < @sum_data
-                        BEGIN
-                        SELECT @home_id = home_id, @away_id = away_id, @home_name = home_name, @away_name = away_name, @home_pts = home_pts, @away_pts = away_pts FROM Game_Stats WHERE game_id in(SELECT TOP (@now_num + 1) game_id FROM Game_Stats) and game_id not in(SELECT TOP (@now_num) game_id FROM Game_Stats)
-                        IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @home_id)
-                        BEGIN
-                        INSERT INTO sort_team VALUES(@home_id, @home_name, 0, 0, 0, 0)
-                        END
-                        IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @away_id)
-                        BEGIN
-                        INSERT INTO sort_team VALUES(@away_id, @away_name, 0, 0, 0, 0)
-                        END
-                        SET @now_num = @now_num + 1
-                        IF @home_pts > @away_pts
-                        BEGIN	
-                        UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
-                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
-                        UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
-                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
-                        END
-                        ELSE
-                        BEGIN
-                        UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
-                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
-                        UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
-                        UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
-                        END
-                        END
-"""
-            conn_cur.execute(sql_1)
-            conn_cur.close()
-        except Exception as e:
-            self.statusBar().showMessage("出现错误: " + str(e))
+
         conn_cur = connect_directly()
         sql_use = """use nba_db"""
         conn_cur_2 = connect_directly()
@@ -189,6 +148,7 @@ class normal_user(QMainWindow, normal_ui):
                 data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                 self.tableWidget_2.setItem(i, j, data)
         conn_cur.close()
+
     def compare_players(self):
         conn_cur = connect_directly()
         try:
@@ -244,7 +204,6 @@ class normal_user(QMainWindow, normal_ui):
             sql_name_1 = """SELECT Player FROM Player_Stats WHERE PlayerID = """ + self.compare_player_1_input.text()
             conn_cur.execute(sql_name_1)
             name_1 = conn_cur.fetchall()[0][0]
-
 
             input_character = ['PTS', 'TRB', 'AST', 'BLK', 'STL']
             input_num = [pts_1, trb_1, ast_1, blk_1, stl_1]
@@ -1539,6 +1498,37 @@ class MainApp(QMainWindow, ui):
 
                 # 消息提示
                 self.statusBar().showMessage("添加成功！")
+                sql_refresh = """
+                                DECLARE @input_game_id INT
+                                SET @input_game_id = """ + games_add_home_id_input + """
+
+                                DECLARE @sum_data INT, @now_num INT, @home_id INT, @home_name varchar(100), @away_id INT, @away_name varchar(100), @home_pts INT, @away_pts INT 
+                                SELECT @home_id = home_id, @away_id = away_id, @home_name = home_name, @away_name = away_name, @home_pts = home_pts, @away_pts = away_pts FROM Game_Stats WHERE game_id = @input_game_id
+
+                                IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @home_id)
+                                BEGIN
+                                INSERT INTO sort_team VALUES(@home_id, @home_name, 0, 0, 0, 0)
+                                END
+                                IF NOT EXISTS(SELECT * FROM sort_team WHERE TeamID = @away_id)
+                                BEGIN
+                                INSERT INTO sort_team VALUES(@away_id, @away_name, 0, 0, 0, 0)
+                                END
+                                IF @home_pts > @away_pts
+                                BEGIN 
+                                UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
+                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
+                                UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
+                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
+                                END
+                                ELSE
+                                BEGIN
+                                UPDATE sort_team SET win_sum = win_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @away_id
+                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @away_id
+                                UPDATE sort_team SET lose_sum = lose_sum + 1, play_sum = play_sum + 1 WHERE TeamID = @home_id
+                                UPDATE sort_team SET win_rate = win_sum / play_sum WHERE TeamID = @home_id
+                                END
+                        """
+                conn_cur_3.execute(sql_refresh)
                 self.games_add_home_date_input.setText('')
                 self.games_add_away_pts_input.setText('')
                 self.games_add_home_pts_input.setText('')
@@ -1555,6 +1545,8 @@ class MainApp(QMainWindow, ui):
 
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
+
+
 
     def delete_game(self):
         user_id = self.username_input.text()
