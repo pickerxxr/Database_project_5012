@@ -1149,6 +1149,8 @@ class MainApp(QMainWindow, ui):
                     # 消息提示
                     self.statusBar().showMessage("删除数据成功！")
                     conn_cur.close()
+                    self.player_delete_id_input.setText('')
+
             except Exception as e:
                 self.statusBar().showMessage("删除失败：" + str(e))
         except Exception as e:
@@ -1185,6 +1187,8 @@ class MainApp(QMainWindow, ui):
                 conn_cur.close()
                 # 消息提示
                 self.statusBar().showMessage("搜索完成！")
+                self.player_search_ID_input.setText('')
+
             except Exception as e:
                 self.statusBar().showMessage("搜索失败:数据不存在或输入格式有误！")
         except Exception as e:
@@ -1230,6 +1234,8 @@ class MainApp(QMainWindow, ui):
                             temp_data = results[i][j]  # 临时记录，不能直接插入表格
                             data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                             self.player_search_tableWidget.setItem(i, j, data)
+                    self.player_search_name_exact_input.setText('')
+
                 except Exception as e:
                     self.statusBar().showMessage("出现错误: 数据不存在")
             except pyodbc.Error:
@@ -1285,9 +1291,12 @@ class MainApp(QMainWindow, ui):
                         temp_data = results[i][j]  # 临时记录，不能直接插入表格
                         data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                         self.player_search_tableWidget.setItem(i, j, data)
+
             except Exception as e:
                 self.statusBar().showMessage("出现错误: 数据不存在")
             conn_cur.close()
+            self.player_search_name_fuzzy_input.setText('')
+
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
@@ -1362,6 +1371,9 @@ class MainApp(QMainWindow, ui):
                         data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
                         self.team_change_tableWidget.setItem(i, j, data)
                 conn_cur.close()
+                self.team_alter_content.setText('')
+                self.team_alter_id.setText('')
+
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
 
@@ -1461,6 +1473,13 @@ class MainApp(QMainWindow, ui):
 
                 # 消息提示
                 self.statusBar().showMessage("添加成功！")
+                self.games_add_home_date_input.setText('')
+                self.games_add_away_pts_input.setText('')
+                self.games_add_home_pts_input.setText('')
+                self.games_add_home_id_input.setText('')
+                self.games_add_away_id_input.setText('')
+                self.games_add_game_id_input.setText('')
+
             except Exception as e:
                 self.statusBar().showMessage("添加数据失败:" + str(e))
 
@@ -1490,6 +1509,8 @@ class MainApp(QMainWindow, ui):
                     self.statusBar().showMessage("删除成功！")
                     conn_cur.commit()
                     conn_cur.close()
+                    self.games_delete_id_input.setText('')
+
             except Exception as e:
                 self.statusBar().showMessage("删除失败！")
 
