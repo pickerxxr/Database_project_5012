@@ -144,7 +144,7 @@ class normal_user(QMainWindow, normal_ui):
 
     def button_set_text_3(self):
         self.textEdit.setText("""Use nba_db\nSELECT TOP 1 teamname, CAST(tov as FLOAT)/CAST(g as FLOAT) as tovPerGm\nFROM teams\nJOIN team_stats ON teams.teamid = team_stats.teamid\nORDER BY tovPerGm DESC
-                                -- 最喜欢换人的球队
+            -- 最喜欢换人的球队
                                 """)
 
     def button_set_text_4(self):
