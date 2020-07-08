@@ -8,10 +8,8 @@ import sys
 
 import matplotlib
 import numpy as np
-import matplotlib.pyplot as plt
 from PyQt5.QtGui import QIcon
-from qtconsole.qt import QtCore
-
+import icons_rc
 from mplwidget_2 import *
 matplotlib.use("Qt5Agg")
 from mplwidget import *
@@ -125,7 +123,65 @@ class normal_user(QMainWindow, normal_ui):
         self.hist_button.clicked.connect(self.hist)
         self.pushButton.clicked.connect(self.sort_team)
         self.pushButton_2.clicked.connect(self.pts_and_lost_pts_order)
+        self.pushButton_7.clicked.connect(self.customize)
+        self.pushButton_3.clicked.connect(self.button_set_text_1)
+        self.pushButton_5.clicked.connect(self.button_set_text_2)
+        self.pushButton_4.clicked.connect(self.button_set_text_3)
+        self.pushButton_6.clicked.connect(self.button_set_text_4)
+
+
     ###########################################################球队排名############################################
+    def button_set_text_1(self):
+        self.textEdit.setText("""USE nba_db
+                                 SELECT TOP 10 teamname, fga FROM teams
+                                 JOIN team_stats ON teams.teamid = team_stats.teamid
+                                 ORDER BY FGA DESC
+                                 -- FGA最高的10支球队
+                                 """)
+    def button_set_text_2(self):
+        self.textEdit.setText("""Use nba_db \nSELECT teamname, pf/g as foulsPerGm\nFROM teams\nJOIN team_stats ON teams.teamid = team_stats.teamid;\n-- Fouls per game\n
+                                """)
+
+    def button_set_text_3(self):
+        self.textEdit.setText("""Use nba_db\nSELECT TOP 1 teamname, CAST(tov as FLOAT)/CAST(g as FLOAT) as tovPerGm\nFROM teams\nJOIN team_stats ON teams.teamid = team_stats.teamid\nORDER BY tovPerGm DESC
+                                -- 最喜欢换人的球队
+                                """)
+
+    def button_set_text_4(self):
+        self.textEdit.setText("""
+                                -- most time efficient scorer in the league
+                                    USE nba_db
+                                    SELECT TOP 1 player, pts, mp, ptsPer48
+                                    FROM (
+                                        SELECT player, pts, mp, CAST(pts as FLOAT)*48/CAST(mp as FLOAT) as ptsPer48
+                                        FROM player_stats
+                                        WHERE pts > 0 AND mp > 0) as ps
+                                    ORDER BY ptsPer48 DESC
+                                """)
+
+    def customize(self):
+        conn_cur = connect_directly()
+        sql = self.textEdit.toPlainText()
+        conn_cur.execute(sql)
+        while conn_cur.nextset():  # NB: This always skips the first result set
+            try:
+                results = conn_cur.fetchall()
+                break
+            except pyodbc.ProgrammingError:
+                continue
+        row = len(results)  # 取得记录个数，用于设置表格的行数
+        vol = len(results[0])  # 取得字段数，用于设置表格的列数
+
+        self.tableWidget_3.setRowCount(row)
+        self.tableWidget_3.setColumnCount(vol)
+
+        for i in range(row):
+            for j in range(vol):
+                temp_data = results[i][j]  # 临时记录，不能直接插入表格
+                data = QTableWidgetItem(str(temp_data))  # 转换后可插入表格
+                self.tableWidget_3.setItem(i, j, data)
+        conn_cur.close()
+
 
     def sort_team(self):
         conn_cur = connect_directly()
@@ -1188,14 +1244,14 @@ class MainApp(QMainWindow, ui):
 
             sql_add_player = ''' USE nba_db
                                 INSERT INTO Player_Stats(PlayerID, Player, Tm, PTS, TRB, AST, STL, BLK) 
-                                VALUES''' + '(' + player_id + ',\'' + player + '\',\'' + tm + '\',' + pts + ',' + trb + ',' + ast + ',' + stl + ',' + blk + ');'
+                                VALUES''' + '(' + player_id + ',\'' + player + '\',\'' + tm + '\',' + pts + ',' + trb + ',' + ast + ',' + stl + ',' + blk + ')'
             # 加球员
             try:
                 conn_cur.execute(sql_add_player)
                 conn_cur.commit()
                 self.statusBar().showMessage("添加成功！")
-            except Exception as e:
-                self.statusBar().showMessage("添加失败" + str(e))
+            except pyodbc.Error:
+                self.statusBar().showMessage("添加失败")
 
             conn_cur.close()
         except Exception as e:

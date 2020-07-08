@@ -138,7 +138,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -160,7 +160,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="player_new_player_tab">
       <attribute name="title">
@@ -1422,7 +1422,7 @@
     <widget class="QWidget" name="formLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>140</x>
        <y>100</y>
        <width>401</width>
        <height>122</height>
@@ -1472,7 +1472,7 @@
     <widget class="QPushButton" name="add_user_button">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>280</x>
        <y>260</y>
        <width>112</width>
        <height>34</height>
@@ -1485,9 +1485,9 @@
     <widget class="QLabel" name="error_m">
      <property name="geometry">
       <rect>
-       <x>600</x>
+       <x>550</x>
        <y>150</y>
-       <width>191</width>
+       <width>231</width>
        <height>21</height>
       </rect>
      </property>

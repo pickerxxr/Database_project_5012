@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1103</width>
+    <width>1115</width>
     <height>850</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
     <enum>QTabWidget::Triangular</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>6</number>
    </property>
    <widget class="QWidget" name="player_tab">
     <attribute name="title">
@@ -37,7 +37,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>971</width>
+       <width>1041</width>
        <height>641</height>
       </rect>
      </property>
@@ -48,7 +48,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="player_show_all_player_tab">
       <attribute name="title">
@@ -57,7 +57,7 @@
       <widget class="QPushButton" name="show_all_pushButton">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>180</x>
          <y>20</y>
          <width>161</width>
          <height>34</height>
@@ -72,7 +72,7 @@
         <rect>
          <x>0</x>
          <y>60</y>
-         <width>721</width>
+         <width>1011</width>
          <height>541</height>
         </rect>
        </property>
@@ -120,7 +120,7 @@
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>200</x>
+         <x>370</x>
          <y>-3</y>
          <width>485</width>
          <height>80</height>
@@ -158,7 +158,7 @@
       <widget class="QPushButton" name="player_search_ID_button">
        <property name="geometry">
         <rect>
-         <x>550</x>
+         <x>640</x>
          <y>18</y>
          <width>112</width>
          <height>34</height>
@@ -171,7 +171,7 @@
       <widget class="QLineEdit" name="player_search_ID_input">
        <property name="geometry">
         <rect>
-         <x>220</x>
+         <x>310</x>
          <y>20</y>
          <width>271</width>
          <height>31</height>
@@ -181,7 +181,7 @@
       <widget class="QPushButton" name="player_search_name_exact_button">
        <property name="geometry">
         <rect>
-         <x>550</x>
+         <x>640</x>
          <y>90</y>
          <width>112</width>
          <height>34</height>
@@ -194,7 +194,7 @@
       <widget class="QLineEdit" name="player_search_name_exact_input">
        <property name="geometry">
         <rect>
-         <x>220</x>
+         <x>310</x>
          <y>92</y>
          <width>271</width>
          <height>31</height>
@@ -204,7 +204,7 @@
       <widget class="QPushButton" name="player_search_name_fuzzy_button">
        <property name="geometry">
         <rect>
-         <x>550</x>
+         <x>640</x>
          <y>168</y>
          <width>161</width>
          <height>34</height>
@@ -217,7 +217,7 @@
       <widget class="QLineEdit" name="player_search_name_fuzzy_input">
        <property name="geometry">
         <rect>
-         <x>220</x>
+         <x>310</x>
          <y>170</y>
          <width>271</width>
          <height>31</height>
@@ -229,7 +229,7 @@
         <rect>
          <x>0</x>
          <y>230</y>
-         <width>921</width>
+         <width>1021</width>
          <height>351</height>
         </rect>
        </property>
@@ -286,7 +286,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>971</width>
+       <width>1031</width>
        <height>671</height>
       </rect>
      </property>
@@ -303,7 +303,7 @@
       <widget class="QPushButton" name="team_show_all_button">
        <property name="geometry">
         <rect>
-         <x>299</x>
+         <x>390</x>
          <y>20</y>
          <width>251</width>
          <height>34</height>
@@ -318,7 +318,7 @@
         <rect>
          <x>20</x>
          <y>80</y>
-         <width>891</width>
+         <width>971</width>
          <height>541</height>
         </rect>
        </property>
@@ -360,7 +360,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>971</width>
+       <width>1031</width>
        <height>671</height>
       </rect>
      </property>
@@ -377,7 +377,7 @@
       <widget class="QPushButton" name="game_show_all_button">
        <property name="geometry">
         <rect>
-         <x>300</x>
+         <x>380</x>
          <y>20</y>
          <width>171</width>
          <height>34</height>
@@ -392,7 +392,7 @@
         <rect>
          <x>0</x>
          <y>60</y>
-         <width>931</width>
+         <width>981</width>
          <height>581</height>
         </rect>
        </property>
@@ -454,7 +454,7 @@
       <rect>
        <x>20</x>
        <y>50</y>
-       <width>901</width>
+       <width>1021</width>
        <height>681</height>
       </rect>
      </property>
@@ -487,7 +487,7 @@
     <widget class="QPushButton" name="hist_button">
      <property name="geometry">
       <rect>
-       <x>330</x>
+       <x>400</x>
        <y>10</y>
        <width>271</width>
        <height>34</height>
@@ -520,7 +520,7 @@
       <rect>
        <x>50</x>
        <y>50</y>
-       <width>931</width>
+       <width>971</width>
        <height>261</height>
       </rect>
      </property>
@@ -565,7 +565,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>显示得分和十分最高的队伍</string>
+      <string>显示得分和失分最高的队伍</string>
      </property>
     </widget>
     <widget class="MplWidget_2" name="widget" native="true">
@@ -596,7 +596,7 @@
     <widget class="QLabel" name="compare_player_1_label">
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>88</x>
        <y>54</y>
        <width>91</width>
        <height>20</height>
@@ -609,7 +609,7 @@
     <widget class="QLineEdit" name="compare_player_1_input">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>198</x>
        <y>50</y>
        <width>113</width>
        <height>25</height>
@@ -619,7 +619,7 @@
     <widget class="QTableWidget" name="compare_player_1_tablewidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>28</x>
        <y>87</y>
        <width>361</width>
        <height>131</height>
@@ -659,7 +659,7 @@
     <widget class="QLineEdit" name="compare_player_2_input">
      <property name="geometry">
       <rect>
-       <x>690</x>
+       <x>780</x>
        <y>50</y>
        <width>113</width>
        <height>25</height>
@@ -669,7 +669,7 @@
     <widget class="QLabel" name="compare_player_2_label">
      <property name="geometry">
       <rect>
-       <x>582</x>
+       <x>670</x>
        <y>55</y>
        <width>91</width>
        <height>18</height>
@@ -682,8 +682,8 @@
     <widget class="QPushButton" name="cmpare_confirm_pushbutton">
      <property name="geometry">
       <rect>
-       <x>393</x>
-       <y>50</y>
+       <x>448</x>
+       <y>80</y>
        <width>112</width>
        <height>34</height>
       </rect>
@@ -695,7 +695,7 @@
     <widget class="QTableWidget" name="compare_player_1_tablewidget_2">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>610</x>
        <y>88</y>
        <width>361</width>
        <height>131</height>
@@ -735,7 +735,7 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>28</x>
        <y>610</y>
        <width>351</width>
        <height>71</height>
@@ -748,8 +748,8 @@
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>620</y>
+       <x>620</x>
+       <y>600</y>
        <width>351</width>
        <height>71</height>
       </rect>
@@ -761,7 +761,7 @@
     <widget class="MplWidget" name="MplWidget2" native="true">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>610</x>
        <y>230</y>
        <width>351</width>
        <height>341</height>
@@ -771,11 +771,179 @@
     <widget class="MplWidget" name="MplWidget2_2" native="true">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>28</x>
        <y>230</y>
        <width>361</width>
        <height>341</height>
       </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>拓展性功能</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_3">
+     <property name="geometry">
+      <rect>
+       <x>45</x>
+       <y>90</y>
+       <width>221</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>FGA指数最高的10支队伍</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_4">
+     <property name="geometry">
+      <rect>
+       <x>549</x>
+       <y>90</y>
+       <width>221</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>换人次数最多的队伍</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_5">
+     <property name="geometry">
+      <rect>
+       <x>295</x>
+       <y>90</y>
+       <width>221</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>犯规次数最多的队伍排名</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_6">
+     <property name="geometry">
+      <rect>
+       <x>795</x>
+       <y>90</y>
+       <width>221</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>得分效率最高的球员</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>1051</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>华文仿宋</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>如果你想尝试进一步的自定义功能，尝试在下方的对话框内输入SQL语句吧！下面是几个示例功能，你可以点击试试看！</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>260</y>
+       <width>451</width>
+       <height>401</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_7">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>680</y>
+       <width>91</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>执行</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>220</y>
+       <width>511</width>
+       <height>441</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>Object</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Detail</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Detail</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Detail</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Detail</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Detail</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>220</y>
+       <width>281</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>在这里输入SQL语句(QUUERY ONLY)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>670</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>查询结果</string>
      </property>
     </widget>
    </widget>
