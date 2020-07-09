@@ -34,7 +34,7 @@ class helloApp(QWidget, hello_ui):
         style = open("themes/darkorange.css", 'r')
         style = style.read()
         self.setStyleSheet(style)
-        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+        self.setWindowIcon(QIcon("./exe_icon.png"))
 
         self.pushButton_2.clicked.connect(self.manage)
         self.pushButton.clicked.connect(self.user_mode)
@@ -97,7 +97,7 @@ class normal_user(QMainWindow, normal_ui):
         self.setupUi(self)
         self.handle_buttons()
         self.setWindowTitle("Normal user")
-        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+        self.setWindowIcon(QIcon("./exe_icon.png"))
 
         self.show()
         self.user_name_show.setText("已连接")
@@ -144,7 +144,7 @@ class normal_user(QMainWindow, normal_ui):
 
     def button_set_text_3(self):
         self.textEdit.setText("""Use nba_db\nSELECT TOP 1 teamname, CAST(tov as FLOAT)/CAST(g as FLOAT) as tovPerGm\nFROM teams\nJOIN team_stats ON teams.teamid = team_stats.teamid\nORDER BY tovPerGm DESC
-                                -- 最喜欢换人的球队
+            -- 最喜欢换人的球队
                                 """)
 
     def button_set_text_4(self):
@@ -892,7 +892,7 @@ class MainApp(QMainWindow, ui):
         self.handle_ui_change()
         self.setWindowTitle("Manager controller")
         self.handle_buttons()
-        self.setWindowIcon(QIcon("./exe_icon.jpg"))
+        self.setWindowIcon(QIcon("./exe_icon.png"))
 
         self.show()
 
@@ -1249,7 +1249,16 @@ class MainApp(QMainWindow, ui):
             try:
                 conn_cur.execute(sql_add_player)
                 conn_cur.commit()
-                self.statusBar().showMessage("添加成功！")
+                sql_use = """use nba_db"""
+                sql_find = """SELECT * FROM Player_Stats WHERE PlayerID = '""" + player_id + "';"
+                conn_cur_2 = connect_directly()
+                conn_cur_2.execute(sql_use)
+                conn_cur_2.execute(sql_find)
+                ctr = conn_cur_2.fetchall()
+                if ctr != []:
+                    self.statusBar().showMessage("已存在此球员！")
+                else:
+                    self.statusBar().showMessage("添加成功！")
             except pyodbc.Error:
                 self.statusBar().showMessage("添加失败")
 
@@ -1599,7 +1608,16 @@ class MainApp(QMainWindow, ui):
                 conn_cur_3.commit()
 
                 # 消息提示
-                self.statusBar().showMessage("添加成功！")
+                sql_use = """use nba_db"""
+                sql_find = """SELECT * FROM Game_Stats WHERE game_id = '""" + game_id + "';"
+                conn_cur_4 = connect_directly()
+                conn_cur_4.execute(sql_use)
+                conn_cur_4.execute(sql_find)
+                ctr = conn_cur_4.fetchall()
+                if ctr != []:
+                    self.statusBar().showMessage("已存在此ID, 请更换ID！")
+                else:
+                    self.statusBar().showMessage("添加成功！")
                 sql_refresh = """
                             DECLARE @input_game_id INT
                             SET @input_game_id = """+ game_id + """
@@ -1840,25 +1858,36 @@ class MainApp(QMainWindow, ui):
             pwd = self.lineEdit_2.text()
             pwd_confirm = self.lineEdit_3.text()
             if pwd == pwd_confirm:
-                hs = hashlib.md5(bytes("交大NB", encoding='UTF-8'))
-                hs.update(bytes(pwd, encoding='UTF-8'))
-                pwd_hs = hs.hexdigest()
-                sql_add = """USE nba_db INSERT INTO users(user_name, user_pwd) VALUES (""" + "'" + str(
-                    name) + "'" + ",'" + str(pwd_hs) + "');"
-                conn_cur.execute(sql_add)
-                conn_cur.commit()
-                conn_cur.close()
-                self.statusBar().showMessage("用户添加成功！")
-                self.lineEditname.setText('')
-                self.lineEdit_2.setText('')
-                self.lineEdit_3.setText('')
+                try:
+                    hs = hashlib.md5(bytes("交大NB", encoding='UTF-8'))
+                    hs.update(bytes(pwd, encoding='UTF-8'))
+                    pwd_hs = hs.hexdigest()
+                    sql_add = """USE nba_db INSERT INTO users(user_name, user_pwd) VALUES (""" + "'" + str(
+                        name) + "'" + ",'" + str(pwd_hs) + "');"
+                    conn_cur.execute(sql_add)
+                    conn_cur.commit()
+                    sql_use = """use nba_db"""
+                    sql_find = """SELECT * FROM users WHERE user_name = '""" + name + "';"
+                    conn_cur_2 = connect_directly()
+                    conn_cur_2.execute(sql_use)
+                    conn_cur_2.execute(sql_find)
+                    ctr = conn_cur_2.fetchall()
+                    if ctr != []:
+                        self.statusBar().showMessage("已存在此用户！！")
 
+                    else:
+                        self.statusBar().showMessage("用户添加成功！")
+                    self.lineEditname.setText('')
+                    self.lineEdit_2.setText('')
+                    self.lineEdit_3.setText('')
+                    conn_cur.close()
+                    conn_cur_2.close()
+                except pyodbc.ProgrammingError as e:
+                    self.statusBar().showMessage("出现错误：" + str(e))
             else:
                 self.error_m.setText('两次密码不一致！请再次输入！')
                 self.lineEdit_2.setText('')
                 self.lineEdit_3.setText('')
-
-
 
         except Exception as e:
             QMessageBox.critical(self, "尚未连接", "请检查你的连接状态")
