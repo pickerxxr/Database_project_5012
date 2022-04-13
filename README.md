@@ -1,7 +1,7 @@
 # Database_project_5012
 A database project as final homework for Fudan DATA130020.01 class.
 
-**NOTE: This is a dead project... Please do not refer to it for your pj. It is totally shit. Not well designed and organized... **
+**NOTE: This is a dead project... Please do not refer to it for your pj. It is totally shit. Not well designed and organized...**
 
 ## Tools
 
